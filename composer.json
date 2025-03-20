@@ -1,0 +1,104 @@
+{
+    "name": "dotkernel/queue",
+    "description": "Dotkernel queue system",
+    "type": "project",
+    "license": "MIT",
+    "keywords": [
+        "laminas",
+        "mezzio",
+        "skeleton",
+        "middleware",
+        "psr",
+        "psr-7",
+        "psr-11",
+        "psr-15"
+    ],
+    "homepage": "https://www.dotkernel.org",
+    "support": {
+        "docs": "https://docs.dotkernel.org/queue-documentation/",
+        "issues": "https://github.com/dotkernel/queue/issues",
+        "source": "https://github.com/dotkernel/queue",
+        "rss": "https://github.com/dotkernel/queue/releases.atom"
+    },
+    "authors": [
+        {
+            "name": "DotKernel Team",
+            "email": "team@dotkernel.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dotkernel/*": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true,
+            "laminas/laminas-component-installer": true
+        }
+    },
+    "extra": {
+        "laminas": {
+            "component-whitelist": [
+                "mezzio/mezzio"
+            ]
+        }
+    },
+    "require": {
+        "php": "~8.2.0 || ~8.3.0 || ~8.4",
+        "dotkernel/dot-cli": "^3.9",
+        "dotkernel/dot-errorhandler": "^4.2.1",
+        "laminas/laminas-component-installer": "^3.5",
+        "laminas/laminas-config-aggregator": "^1.18",
+        "mezzio/mezzio": "^3.20",
+        "netglue/laminas-messenger": "^2.3.0",
+        "symfony/redis-messenger": "^v7.2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5.45",
+        "psalm/plugin-phpunit": "^0.19.2",
+        "roave/security-advisories": "dev-master",
+        "swoole/ide-helper": "~5.0.0",
+        "vimeo/psalm": "^6.8.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Queue\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "scripts": {
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "mezzio": "laminas --ansi",
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "clear-config-cache": "php bin/clear-config-cache.php",
+        "enable-codestandard": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+        "cs-check": [
+            "@enable-codestandard",
+            "phpcs -s"
+        ],
+        "cs-fix": [
+            "@enable-codestandard",
+            "phpcbf"
+        ],
+        "serve": [
+          "Composer\\Config::disableProcessTimeout",
+          "php -S 0.0.0.0:8080 -t public/"
+        ],
+        "static-analysis": "psalm --stats",
+        "static-analysis-update-baseline": "psalm --stats --update-baseline",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "scripts-descriptions": {
+        "clear-config-cache": "Clears merged config cache. Required for config changes to be applied.",
+        "static-analysis": "Run static analysis tool Psalm.",
+        "static-analysis-update-baseline": "Run static analysis tool Psalm and update baseline."
+    }
+}

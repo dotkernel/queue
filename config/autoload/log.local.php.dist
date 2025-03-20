@@ -1,0 +1,25 @@
+<?php
+
+use Dot\Log\Formatter\Json;
+use Dot\Log\Logger;
+
+return [
+    'dot_log' => [
+        'loggers' => [
+            'queue-log' => [
+                'writers' => [
+                    'FileWriter' => [
+                        'name' => 'stream',
+                        'level'   => \Dot\Log\Logger::ALERT, // this is equal to 1
+                        'options' => [
+                            'stream' => __DIR__ . '/../../log/queue-log.log',
+                            'formatter' => [
+                                'name' => Json::class,
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        ],
+    ],
+];

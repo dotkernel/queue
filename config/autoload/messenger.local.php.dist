@@ -1,0 +1,25 @@
+<?php
+
+use Netglue\PsrContainer\Messenger\Container\TransportFactory;
+use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface as SymfonySerializer;
+
+return [
+    "symfony" => [
+        "messenger" => [
+            "transports" => [
+                "redis_transport" => [
+                    'dsn' => 'redis://127.0.0.1:6379/messages',
+                    'options' => [], // Redis specific options
+                    'serializer' => SymfonySerializer::class,
+                ]
+            ]
+        ]
+    ],
+    "dependencies" => [
+        "factories" => [
+            "redis_transport" => [TransportFactory::class, 'redis_transport'],
+            SymfonySerializer::class => fn(\Psr\Container\ContainerInterface $container) => new PhpSerializer()
+        ]
+    ]
+];

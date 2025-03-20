@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'dotkernel-queue-swoole' => [
+        // Available in Swoole 4.1 and up; enables coroutine support
+        // for most I/O operations:
+        'enable_coroutine' => true,
+
+        // Configure Swoole TCP Server:
+        'swoole-tcp-server' => [
+            'host' => 'localhost',
+            'port' => 8556,
+            'mode' => SWOOLE_BASE, // SWOOLE_BASE or SWOOLE_PROCESS;
+            // SWOOLE_BASE is the default
+            'protocol' => SWOOLE_SOCK_TCP, // SWOOLE_SSL, // SSL-enable the server
+            'options' => [
+                // Set the SSL certificate and key paths for SSL support:
+                'ssl_cert_file' => 'path/to/ssl.crt',
+                'ssl_key_file' => 'path/to/ssl.key',
+                // Whether or not the HTTP server should use coroutines;
+                // enabled by default, and generally should not be disabled:
+                'package_eof' => "\n",
+                'open_eof_check' => true,
+                'open_length_check' => true,
+
+
+                // Overwrite the default location of the pid file;
+                // required when you want to run multiple instances of your service in different ports:
+                'pid_file' => __DIR__ . '/../../data/dotkernel-queue.pid',
+            ],
+
+            // The master process will be named `{prefix}-master`,
+            // worker processes will be named `{prefix}-worker-{id}`,
+            // and task worker processes will be named `{prefix}-task-worker-{id}`
+            'process-name' => 'dotkernel-queue',
+        ],
+    ],
+];
