@@ -22,6 +22,7 @@ $aggregator = new ConfigAggregator([
     \Netglue\PsrContainer\Messenger\ConfigProvider::class,
 
     // Default App module config
+    \Queue\App\ConfigProvider::class,
     \Queue\Swoole\ConfigProvider::class,
 
     // Load application config in a pre-defined order in such a way that local settings

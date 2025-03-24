@@ -70,7 +70,8 @@ EOH;
 
         $pidManager = $this->pidManager;
 
-        $server->on('start', function () use ($server, $pidManager, $processName) {
+        $server->on('start', function () use ($server, $pidManager, $processName, $output) {
+            $output->writeln('<info>Server started...</info>');
             $pidManager->write($server->master_pid, $server->manager_pid);
 
             swoole_set_process_name(sprintf('%s-master', $processName));
