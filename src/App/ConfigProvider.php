@@ -87,7 +87,7 @@ class ConfigProvider
                  * Route specific messages to specific transports by using the message name as the key.
                  */
                 'routes' => [
-                    ExampleMessage::class => ["redis"],
+                    ExampleMessage::class => ["redis_transport"],
                 ],
             ]
         ];
