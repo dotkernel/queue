@@ -1,7 +1,8 @@
 <?php
 
-namespace Queue\Swoole\Command\Factory;
+declare(strict_types=1);
 
+namespace Queue\Swoole\Command\Factory;
 
 use Psr\Container\ContainerInterface;
 use Queue\Swoole\Command\StartCommand;

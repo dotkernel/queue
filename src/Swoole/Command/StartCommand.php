@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole\Command;
 
-use Dot\Log\Logger;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Queue\Swoole\PidManager;
+use Swoole\Server as SwooleServer;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
-use Swoole\Server as SwooleServer;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use function sprintf;
+use function swoole_set_process_name;
 
 #[AsCommand('queue:swoole:start')]
 class StartCommand extends Command
@@ -23,7 +26,7 @@ class StartCommand extends Command
 
     public const DEFAULT_NUM_WORKERS = 4;
 
-    public const HELP = <<< 'EOH'
+    public const HELP = <<<'EOH'
 Start the web server. If --daemonize is provided, starts the server as a
 background process and returns handling to the shell; otherwise, the
 server runs in the current process.
@@ -37,9 +40,7 @@ EOH;
         'config/routes.php',
     ];
 
-    /**
-     * @var ContainerInterface
-     */
+    /** @var ContainerInterface */
     private $container;
 
     public function __construct(ContainerInterface $container, string $name = 'start')
@@ -63,8 +64,8 @@ EOH;
             return 1;
         }
 
-        $server = $this->container->get(SwooleServer::class);
-        $config = $this->container->get('config');
+        $server      = $this->container->get(SwooleServer::class);
+        $config      = $this->container->get('config');
         $processName = $config['dotkernel-queue-swoole']['swoole-server']['process-name']
             ?? self::DEFAULT_PROCESS_NAME;
 
@@ -81,7 +82,4 @@ EOH;
 
         return 0;
     }
-
-
-
 }

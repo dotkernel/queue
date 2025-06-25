@@ -1,8 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole;
 
 use Queue\Swoole\Exception\RuntimeException;
+
+use function dirname;
+use function explode;
+use function file_get_contents;
+use function file_put_contents;
+use function is_readable;
+use function is_writable;
+use function sprintf;
+use function unlink;
 
 class PidManager
 {

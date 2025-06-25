@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole\Command;
 
 use Closure;
@@ -9,21 +11,23 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function time;
+use function usleep;
 
 class StopCommand extends Command
 {
     use IsRunningTrait;
 
-    public const HELP = <<< 'EOH'
+    public const HELP = <<<'EOH'
 Stop the web server. Kills all worker processes and stops the web server.
 
 This command is only relevant when the server was started using the
 --daemonize option.
 EOH;
 
-
     /**
      * @internal
+     *
      * @var Closure Callable to execute when attempting to kill the server
      *     process. Generally speaking, this is SwooleProcess::kill; only
      *     change the value when testing.
@@ -32,31 +36,29 @@ EOH;
 
     /**
      * @internal
+     *
      * @var int How long to wait for the server process to end. Only change
      *     the value when testing.
      */
     public $waitThreshold = 60;
 
-    /**
-     * @var PidManager
-     */
+    /** @var PidManager */
     private $pidManager;
-
 
     public function __construct(PidManager $pidManager, string $name = 'stop')
     {
         $this->killProcess = Closure::fromCallable([SwooleProcess::class, 'kill']);
-        $this->pidManager = $pidManager;
+        $this->pidManager  = $pidManager;
         parent::__construct($name);
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription('Stop the web server.');
         $this->setHelp(self::HELP);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! $this->isRunning()) {
             $output->writeln('<info>Server is not running</info>');
@@ -74,11 +76,11 @@ EOH;
         return 0;
     }
 
-    private function stopServer() : bool
+    private function stopServer(): bool
     {
-        [$masterPid, ] = $this->pidManager->read();
-        $startTime     = time();
-        $result        = ($this->killProcess)((int) $masterPid);
+        [$masterPid] = $this->pidManager->read();
+        $startTime   = time();
+        $result      = ($this->killProcess)((int) $masterPid);
 
         while (! $result) {
             if (! ($this->killProcess)((int) $masterPid, 0)) {
@@ -99,6 +101,4 @@ EOH;
 
         return true;
     }
-
-
 }

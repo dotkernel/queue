@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole\Command;
 
 use Swoole\Process as SwooleProcess;
@@ -9,7 +11,7 @@ trait IsRunningTrait
     /**
      * Is the swoole  server running?
      */
-    public function isRunning() : bool
+    public function isRunning(): bool
     {
         $pids = $this->pidManager->read();
 
@@ -27,5 +29,4 @@ trait IsRunningTrait
         // Swoole base mode, no manager process
         return $masterPid && SwooleProcess::kill((int) $masterPid, 0);
     }
-
 }

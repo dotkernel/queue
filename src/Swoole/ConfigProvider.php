@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole;
 
 use Queue\Swoole\Command\Factory\StartCommandFactory;
@@ -14,7 +16,7 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies'     => $this->getDependencies(),
+            'dependencies' => $this->getDependencies(),
         ];
     }
 
@@ -26,9 +28,9 @@ class ConfigProvider
             ],
             "factories"  => [
                 TCPSwooleServer::class => ServerFactory::class,
-                PidManager::class => PidManagerFactory::class,
-                StartCommand::class => StartCommandFactory::class,
-                StopCommand::class => StopCommandFactory::class
+                PidManager::class      => PidManagerFactory::class,
+                StartCommand::class    => StartCommandFactory::class,
+                StopCommand::class     => StopCommandFactory::class,
             ],
             "aliases"    => [],
         ];

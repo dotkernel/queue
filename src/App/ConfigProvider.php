@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\App;
 
-use Laminas\ServiceManager\Factory\InvokableFactory;
 use Netglue\PsrContainer\Messenger\Container\MessageBusStaticFactory;
 use Netglue\PsrContainer\Messenger\Container\Middleware\BusNameStampMiddlewareStaticFactory;
 use Netglue\PsrContainer\Messenger\Container\Middleware\MessageHandlerMiddlewareStaticFactory;
@@ -15,11 +16,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class ConfigProvider
 {
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             "dependencies" => $this->getDependencies(),
-            'symfony' => [
+            'symfony'      => [
                 'messenger' => [
                     'buses' => $this->busConfig(),
                 ],
@@ -27,28 +28,28 @@ class ConfigProvider
         ];
     }
 
-
-    private function getDependencies()
+    private function getDependencies(): array
     {
         return [
             "factories" => [
-                "message_bus" => [MessageBusStaticFactory::class, "message_bus"],
-                "message_bus_stamp_middleware" => [BusNameStampMiddlewareStaticFactory::class, "message_bus"],
-                "message_bus_sender_middleware" => [MessageSenderMiddlewareStaticFactory::class, "message_bus"],
+                "message_bus"                    => [MessageBusStaticFactory::class, "message_bus"],
+                "message_bus_stamp_middleware"   => [BusNameStampMiddlewareStaticFactory::class, "message_bus"],
+                "message_bus_sender_middleware"  => [MessageSenderMiddlewareStaticFactory::class, "message_bus"],
                 "message_bus_handler_middleware" => [MessageHandlerMiddlewareStaticFactory::class, "message_bus"],
-                ExampleMessageHandler::class => ExampleMessageHandlerFactory::class
+                ExampleMessageHandler::class     => ExampleMessageHandlerFactory::class,
             ],
-            "aliases" => [
-               MessageBusInterface::class => "message_bus"
-            ]
+            "aliases"   => [
+                MessageBusInterface::class => "message_bus",
+            ],
         ];
     }
 
-    private function busConfig()
+    private function busConfig(): array
     {
         return [
             "message_bus" => [
-                'allows_zero_handlers' => false, // Means that it's an error if no handlers are defined for a given message
+                // Means that it's an error if no handlers are defined for a given message
+                'allows_zero_handlers' => false,
 
                 /**
                  * Each bus needs middleware to do anything useful.
@@ -67,10 +68,9 @@ class ConfigProvider
                  *
                  * Two locators are shipped, 1 message type to 1 handler and 1 message type to many handlers.
                  * Both locators operate on the basis that handlers are available in the container.
-                 *
                  */
                 'handler_locator' => OneToManyFqcnContainerHandlerLocator::class,
-                'handlers' => [
+                'handlers'        => [
                     ExampleMessage::class => [ExampleMessageHandler::class],
                 ],
 
@@ -89,7 +89,7 @@ class ConfigProvider
                 'routes' => [
                     ExampleMessage::class => ["redis_transport"],
                 ],
-            ]
+            ],
         ];
     }
 }
