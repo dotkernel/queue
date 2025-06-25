@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole;
 
 use ArrayAccess;
 use Psr\Container\ContainerInterface;
 use Queue\Swoole\Exception\InvalidArgumentException;
-use Swoole\Server as SwooleServer;
 use Swoole\Runtime as SwooleRuntime;
+use Swoole\Server as SwooleServer;
 use Webmozart\Assert\Assert;
 
 use function assert;
@@ -24,6 +26,7 @@ use const SWOOLE_SOCK_UDP6;
 use const SWOOLE_SSL;
 use const SWOOLE_UNIX_DGRAM;
 use const SWOOLE_UNIX_STREAM;
+
 class ServerFactory
 {
     /**
@@ -104,7 +107,7 @@ class ServerFactory
 
         $enableCoroutine = $swooleConfig['enable_coroutine'] ?? false;
         if ($enableCoroutine && method_exists(SwooleRuntime::class, 'enableCoroutine')) {
-            SwooleRuntime::enableCoroutine(true);
+            SwooleRuntime::enableCoroutine();
         }
 
         $httpServer    = new SwooleServer($host, $port, $mode, $protocol);

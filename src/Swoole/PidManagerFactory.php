@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole;
 
 use Psr\Container\ContainerInterface;
+
+use function sys_get_temp_dir;
 
 class PidManagerFactory
 {

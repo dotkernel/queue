@@ -34,7 +34,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // - $app->pipe('/docs', $apiDocMiddleware);
     // - $app->pipe('/files', $filesMiddleware);
 
-
     // The following handle routing failures for common conditions:
     // - HEAD request but no routes answer that method
     // - OPTIONS request but no routes answer that method
@@ -53,9 +52,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     // Register the dispatch middleware in the middleware pipeline
 
-
     // At this point, if no Response is returned by any middleware, the
     // NotFoundHandler kicks in; alternately, you can provide other fallback
     // middleware to execute.
-
 };

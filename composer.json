@@ -53,6 +53,7 @@
         "symfony/redis-messenger": "^v7.2.3"
     },
     "require-dev": {
+        "laminas/laminas-coding-standard": "^3.0",
         "phpunit/phpunit": "^10.5.45",
         "psalm/plugin-phpunit": "^0.19.2",
         "roave/security-advisories": "dev-master",
@@ -66,39 +67,18 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "DotTest\\Mail\\": "test/"
         }
     },
     "scripts": {
-        "development-disable": "laminas-development-mode disable",
-        "development-enable": "laminas-development-mode enable",
-        "development-status": "laminas-development-mode status",
-        "mezzio": "laminas --ansi",
         "check": [
             "@cs-check",
             "@test"
         ],
-        "clear-config-cache": "php bin/clear-config-cache.php",
-        "enable-codestandard": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-        "cs-check": [
-            "@enable-codestandard",
-            "phpcs -s"
-        ],
-        "cs-fix": [
-            "@enable-codestandard",
-            "phpcbf"
-        ],
-        "serve": [
-          "Composer\\Config::disableProcessTimeout",
-          "php -S 0.0.0.0:8080 -t public/"
-        ],
-        "static-analysis": "psalm --stats",
-        "static-analysis-update-baseline": "psalm --stats --update-baseline",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
-    },
-    "scripts-descriptions": {
-        "clear-config-cache": "Clears merged config cache. Required for config changes to be applied.",
-        "static-analysis": "Run static analysis tool Psalm.",
-        "static-analysis-update-baseline": "Run static analysis tool Psalm and update baseline."
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "static-analysis": "psalm --shepherd --stats"
     }
 }

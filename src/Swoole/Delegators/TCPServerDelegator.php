@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Queue\Swoole\Delegators;
 
 use Psr\Container\ContainerInterface;
-
 use Queue\App\Message\ExampleMessage;
 use Swoole\Server as TCPSwooleServer;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -11,7 +12,7 @@ use Symfony\Component\Messenger\Stamp\DelayStamp;
 
 class TCPServerDelegator
 {
-    public function __invoke(ContainerInterface $container, string $serviceName, callable $callback)
+    public function __invoke(ContainerInterface $container, string $serviceName, callable $callback): TCPSwooleServer
     {
         /** @var TCPSwooleServer $server */
         $server = $callback();
@@ -26,17 +27,16 @@ class TCPServerDelegator
         });
 
         // Register the function for the event `receive`
-        $server->on('receive', function ($server, $fd, $from_id, $data) use ($logger, $bus) {
-
+        $server->on('receive', function ($server, $fd, $fromId, $data) use ($logger, $bus) {
             $bus->dispatch(new ExampleMessage(["foo" => $data]));
             $bus->dispatch(new ExampleMessage(["foo" => "with 5 seconds delay"]), [
-                new DelayStamp(5000)
+                new DelayStamp(5000),
             ]);
 
             $server->send($fd, "Server: {$data}");
             $logger->notice("Request received on receive", [
-                'fd' => $fd,
-                'from_id' => $from_id
+                'fd'      => $fd,
+                'from_id' => $fromId,
             ]);
         });
 
@@ -46,7 +46,5 @@ class TCPServerDelegator
         });
 
         return $server;
-
     }
-
 }
