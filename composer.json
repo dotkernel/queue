@@ -13,7 +13,7 @@
         "psr-11",
         "psr-15"
     ],
-    "homepage": "https://www.dotkernel.org",
+    "homepage": "https://github.com/dotkernel/queue",
     "support": {
         "docs": "https://docs.dotkernel.org/queue-documentation/",
         "issues": "https://github.com/dotkernel/queue/issues",
@@ -22,7 +22,7 @@
     },
     "authors": [
         {
-            "name": "DotKernel Team",
+            "name": "Dotkernel Team",
             "email": "team@dotkernel.com"
         }
     ],
