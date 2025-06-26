@@ -50,7 +50,8 @@ jobs:
       - name: Collect code coverage with PHPUnit
         run: vendor/bin/phpunit --colors=always --coverage-clover clover.xml
 
-      - name: Send code coverage report to Codecov.io
-        uses: codecov/codecov-action@v3
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+         token: ${{ secrets.CODECOV_TOKEN }}
+         slug: dotkernel/queue
