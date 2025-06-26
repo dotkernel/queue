@@ -15,7 +15,6 @@ use function assert;
 use function defined;
 use function in_array;
 use function is_array;
-use function method_exists;
 
 use const SWOOLE_BASE;
 use const SWOOLE_PROCESS;

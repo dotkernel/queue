@@ -21,9 +21,9 @@ trait IsRunningTrait
 
         [$masterPid, $managerPid] = $pids;
 
-        if ($managerPid !== '') {
+        if ($managerPid) {
             // Swoole process mode
-            return $masterPid && $managerPid && SwooleProcess::kill((int) $managerPid, 0);
+            return $masterPid && SwooleProcess::kill((int) $managerPid, 0);
         }
 
         // Swoole base mode, no manager process
