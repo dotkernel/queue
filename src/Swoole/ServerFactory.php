@@ -91,11 +91,11 @@ class ServerFactory
             throw new InvalidArgumentException('Invalid port');
         }
 
-        if (! in_array($mode, static::MODES, true)) {
+        if (! in_array($mode, self::MODES, true)) {
             throw new InvalidArgumentException('Invalid server mode');
         }
 
-        $validProtocols = static::PROTOCOLS;
+        $validProtocols = self::PROTOCOLS;
         if (defined('SWOOLE_SSL')) {
             $validProtocols[] = SWOOLE_SOCK_TCP | SWOOLE_SSL;
             $validProtocols[] = SWOOLE_SOCK_TCP6 | SWOOLE_SSL;
@@ -106,7 +106,7 @@ class ServerFactory
         }
 
         $enableCoroutine = $swooleConfig['enable_coroutine'] ?? false;
-        if ($enableCoroutine && method_exists(SwooleRuntime::class, 'enableCoroutine')) {
+        if ($enableCoroutine) {
             SwooleRuntime::enableCoroutine();
         }
 

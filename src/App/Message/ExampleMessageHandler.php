@@ -18,6 +18,6 @@ class ExampleMessageHandler
         /** @var Logger $logger */
         $logger = $this->container->get("dot-log.queue-log");
 
-        $logger->info("message: " . $message->getPayload()['foo'] ?? null);
+        $logger->info("message: " . $message->getPayload()['foo']);
     }
 }

@@ -39,7 +39,6 @@ class PidManager
      * Read master pid and manager pid from pid file
      *
      * @return string[] Array with master and manager PID values as strings
-     * @psalm-return list<string>
      */
     public function read(): array
     {
