@@ -47,7 +47,8 @@ jobs:
       - name: Setup project
         run: |
           mv config/autoload/local.php.dist config/autoload/local.php
-          mv config/autoload/mail.local.php.dist config/autoload/mail.local.php
-          mv config/autoload/local.test.php.dist config/autoload/local.test.php
+          mv config/autoload/messenger.local.php.dist config/autoload/messenger.local.php
+          mv config/autoload/swoole.local.php.dist config/autoload/swoole.local.php
+          mv config/autoload/log.local.php.dist config/autoload/log.local.php
       - name: Run static analysis with PHPStan
         run:  vendor/bin/phpstan analyse
