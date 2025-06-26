@@ -106,7 +106,7 @@ class ServerFactory
 
         $enableCoroutine = $swooleConfig['enable_coroutine'] ?? false;
         if ($enableCoroutine) {
-            SwooleRuntime::enableCoroutine();
+            SwooleRuntime::enableCoroutine(true);
         }
 
         $httpServer    = new SwooleServer($host, $port, $mode, $protocol);
