@@ -1,5 +1,7 @@
-#!/bin/bash
+JOB=$3
+PHP_VERSION=$4
+COMMAND=$(echo "${JOB}" | jq -r '.command')
 
-# Due to the fact that we are disabling plugins when installing/updating/downgrading composer dependencies
-# we have to manually enable the coding standard here.
-composer enable-codestandard
+echo "Running pre-run $COMMAND"
+
+apt-get install php-redis

@@ -4,10 +4,5 @@
         "--no-plugins"
     ],
     "ignore_php_platform_requirements": {
-    },
-    "tools": {
-        "php": {
-            "extensions": ["redis"]
-        }
     }
 }
