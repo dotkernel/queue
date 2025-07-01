@@ -9,5 +9,41 @@
 
 declare(strict_types=1);
 
+$baseUrl = 'http://localhost:8080';
+
+$databases = [
+    'default' => [
+        'host'     => '',
+        'dbname'   => '',
+        'user'     => '',
+        'password' => '',
+        'port'     => ,
+        'driver'   => 'pdo_mysql',
+        'charset'  => 'utf8mb4',
+        'collate'  => 'utf8mb4_general_ci',
+    ],
+    // you can add more database connections into this array
+];
+
 return [
+    'application'  => [
+        'name' => $app['name'] ?? '',
+        'url'  => $baseUrl,
+    ],
+    'databases'    => $databases,
+    'doctrine'     => [
+        'connection' => [
+            'orm_default' => [
+                'params' => $databases['default'],
+            ],
+        ],
+    ],
+    'notification' => [
+        'server' => [
+            'protocol' => '',
+            'host'     => '',
+            'port'     => '',
+            'eof'      => "\n",
+        ],
+    ],
 ];

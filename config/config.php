@@ -15,15 +15,31 @@ $cacheConfig = [
 $aggregator = new ConfigAggregator([
     // Include cache configuration
     new ArrayProvider($cacheConfig),
-    \Mezzio\ConfigProvider::class,
-    \Dot\ErrorHandler\ConfigProvider::class,
-    \Dot\Log\ConfigProvider::class,
-    \Dot\Cli\ConfigProvider::class,
-    \Netglue\PsrContainer\Messenger\ConfigProvider::class,
+    Mezzio\ConfigProvider::class,
+    Mezzio\Twig\ConfigProvider::class,
+    Netglue\PsrContainer\Messenger\ConfigProvider::class,
 
     // Default App module config
-    \Queue\App\ConfigProvider::class,
-    \Queue\Swoole\ConfigProvider::class,
+    Queue\App\ConfigProvider::class,
+    Queue\Swoole\ConfigProvider::class,
+
+    // Dotkernel packages
+    Dot\Log\ConfigProvider::class,
+    Dot\Cli\ConfigProvider::class,
+    Dot\ErrorHandler\ConfigProvider::class,
+    Dot\DataFixtures\ConfigProvider::class,
+    Dot\DependencyInjection\ConfigProvider::class,
+    Dot\Mail\ConfigProvider::class,
+    Dot\Twig\ConfigProvider::class,
+    Dot\Cache\ConfigProvider::class,
+
+    // Core modules
+    Core\Admin\ConfigProvider::class,
+    Core\App\ConfigProvider::class,
+    Core\Security\ConfigProvider::class,
+    Core\Setting\ConfigProvider::class,
+    Core\User\ConfigProvider::class,
+    Core\NotificationSystem\ConfigProvider::class,
 
     // Load application config in a pre-defined order in such a way that local settings
     // overwrite global settings. (Loaded as first to last):

@@ -35,11 +35,6 @@ Use --num-workers to control how many worker processes to start. If you
 do not provide the option, 4 workers will be started.
 EOH;
 
-    private const PROGRAMMATIC_CONFIG_FILES = [
-        'config/pipeline.php',
-        'config/routes.php',
-    ];
-
     /** @var ContainerInterface */
     private $container;
 

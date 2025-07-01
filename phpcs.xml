@@ -19,14 +19,10 @@
     <exclude-pattern>config/routes.php</exclude-pattern>
 
     <!-- Include all rules from the Laminas Coding Standard -->
-    <rule ref="LaminasCodingStandard"/>
-
-    <rule ref="Squiz.Classes.ClassFileName.NoMatch">
-        <exclude-pattern>src/ConfigProvider.*.php</exclude-pattern>
-    </rule>
-
-    <rule ref="PSR12.Files.FileHeader.IncorrectOrder">
+    <rule ref="LaminasCodingStandard">
+        <!-- Exclude rule -->
+        <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName" />
+        <exclude-pattern>src/Core/src/App/src/Migration/*</exclude-pattern>
         <exclude-pattern>config/pipeline.php</exclude-pattern>
-        <exclude-pattern>src/MezzioInstaller/Resources/config/routes-*.php</exclude-pattern>
     </rule>
 </ruleset>
