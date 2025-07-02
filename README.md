@@ -18,19 +18,40 @@
 [![Qodana](https://github.com/dotkernel/queue/actions/workflows/qodana_code_quality.yml/badge.svg?branch=main)](https://github.com/dotkernel/queue/actions/workflows/qodana_code_quality.yml)
 [![PHPStan](https://github.com/dotkernel/queue/actions/workflows/static-analysis.yml/badge.svg?branch=main)](https://github.com/dotkernel/queue/actions/workflows/static-analysis.yml)
 
-## Installation
+## Clone the project
 
-Install `dotkernel/queue` by executing the following Composer command:
+Using your terminal, navigate inside the directory you want to download the project files into. Make sure that the directory is empty before proceeding to the download process. Once there, run the following command:
 
 ```shell
-composer require dotkernel/queue
+git clone https://github.com/dotkernel/queue.git .
 ```
 
 ## Setup
 
-In order to setup the server run the following commands:
+After you have finished cloning the project, before installing the dependencies, you need to setup the server. Using the command line, go to your system root directory, then type the following commands:
 
-Install Valkey
+Start with updating your system
+```shell
+ sudo dnf update -y
+```
+
+Installing Apache HTTP Server
+```shell
+sudo dnf install httpd httpd-tools -y
+```
+
+Start and enable the Apache service
+```shell
+sudo systemctl start httpd
+sudo systemctl enable httpd
+```
+
+To check Apache service status run the following command
+```shell
+  sudo systemctl status httpd
+```
+
+Once you have installed Apache you can proceed to install Valkey
 ```shell
 sudo dnf install valkey
 ```
@@ -115,6 +136,11 @@ sudo systemctl restart httpd
 Check if swoole extension is loaded in PHP
 ```shell
 php -m | grep swoole
+```
+
+After the server setup is complete, you can move on to installing the project dependencies, go to your application's root directory and run the following command.
+```shell
+composer install
 ```
 
 ## Usage
