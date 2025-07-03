@@ -13,11 +13,11 @@ $baseUrl = 'http://localhost:8080';
 
 $databases = [
     'default' => [
-        'host'     => '',
-        'dbname'   => '',
+        'host'     => 'localhost',
+        'dbname'   => 'dotkernel',
         'user'     => '',
         'password' => '',
-        'port'     => ,
+        'port'     => 3306,
         'driver'   => 'pdo_mysql',
         'charset'  => 'utf8mb4',
         'collate'  => 'utf8mb4_general_ci',

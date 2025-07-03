@@ -18,8 +18,6 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Dot\Cache\Adapter\ArrayAdapter;
 use Dot\Cache\Adapter\FilesystemAdapter;
 use Dot\DependencyInjection\Factory\AttributedServiceFactory;
-use Dot\ErrorHandler\ErrorHandlerInterface;
-use Dot\ErrorHandler\LogErrorHandler;
 use Dot\Mail\Factory\MailOptionsAbstractFactory;
 use Dot\Mail\Factory\MailServiceAbstractFactory;
 use Dot\Mail\Service\MailService as DotMailService;
@@ -129,7 +127,6 @@ class ConfigProvider
                 DotMailService::class         => 'dot-mail.service.default',
                 EntityManager::class          => 'doctrine.entity_manager.orm_default',
                 EntityManagerInterface::class => 'doctrine.entity_manager.orm_default',
-                ErrorHandlerInterface::class  => LogErrorHandler::class,
             ],
         ];
     }

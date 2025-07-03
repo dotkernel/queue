@@ -49,7 +49,7 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'notification-email' => [__DIR__ . '/../../templates'],
+                'notification-email' => [__DIR__ . '/templates'],
             ],
         ];
     }
