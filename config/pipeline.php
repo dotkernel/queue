@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Dot\ErrorHandler\ErrorHandlerInterface;
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
@@ -14,7 +13,6 @@ use Psr\Container\ContainerInterface;
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     // The error handler should be the first (most outer) middleware to catch
     // all Exceptions.
-    $app->pipe(ErrorHandlerInterface::class);
 
     // Pipe more middleware here that you want to execute on every request:
     // - bootstrapping

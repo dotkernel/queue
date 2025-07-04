@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Queue\App;
 
+use Dot\DependencyInjection\Factory\AttributedServiceFactory;
 use Netglue\PsrContainer\Messenger\Container\MessageBusStaticFactory;
 use Netglue\PsrContainer\Messenger\Container\Middleware\BusNameStampMiddlewareStaticFactory;
 use Netglue\PsrContainer\Messenger\Container\Middleware\MessageHandlerMiddlewareStaticFactory;
@@ -11,7 +12,6 @@ use Netglue\PsrContainer\Messenger\Container\Middleware\MessageSenderMiddlewareS
 use Netglue\PsrContainer\Messenger\HandlerLocator\OneToManyFqcnContainerHandlerLocator;
 use Queue\App\Message\ExampleMessage;
 use Queue\App\Message\ExampleMessageHandler;
-use Queue\App\Message\ExampleMessageHandlerFactory;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class ConfigProvider
@@ -25,6 +25,7 @@ class ConfigProvider
                     'buses' => $this->busConfig(),
                 ],
             ],
+            'templates'    => $this->getTemplates(),
         ];
     }
 
@@ -36,10 +37,19 @@ class ConfigProvider
                 "message_bus_stamp_middleware"   => [BusNameStampMiddlewareStaticFactory::class, "message_bus"],
                 "message_bus_sender_middleware"  => [MessageSenderMiddlewareStaticFactory::class, "message_bus"],
                 "message_bus_handler_middleware" => [MessageHandlerMiddlewareStaticFactory::class, "message_bus"],
-                ExampleMessageHandler::class     => ExampleMessageHandlerFactory::class,
+                ExampleMessageHandler::class     => AttributedServiceFactory::class,
             ],
             "aliases"   => [
                 MessageBusInterface::class => "message_bus",
+            ],
+        ];
+    }
+
+    public function getTemplates(): array
+    {
+        return [
+            'paths' => [
+                'notification-email' => [__DIR__ . '/templates'],
             ],
         ];
     }
