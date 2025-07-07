@@ -43,7 +43,7 @@
         }
     },
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4",
+        "php": "~8.2.0 || ~8.3.0",
         "ext-sockets": "*",
         "clue/socket-raw": "^v1.6.0",
         "dotkernel/dot-cache": "^4.3",
