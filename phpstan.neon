@@ -7,5 +7,3 @@ parameters:
         - src
         - test
     treatPhpDocTypesAsCertain: false
-    ignoreErrors:
-        - '#Constant Queue\\Swoole\\Command\\StartCommand::PROGRAMMATIC_CONFIG_FILES is unused#'
