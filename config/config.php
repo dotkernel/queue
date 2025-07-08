@@ -29,7 +29,6 @@ $aggregator = new ConfigAggregator([
     Dot\DataFixtures\ConfigProvider::class,
     Dot\DependencyInjection\ConfigProvider::class,
     Dot\Mail\ConfigProvider::class,
-    Dot\Twig\ConfigProvider::class,
     Dot\Cache\ConfigProvider::class,
 
     // Core modules
