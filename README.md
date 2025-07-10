@@ -18,12 +18,149 @@
 [![Qodana](https://github.com/dotkernel/queue/actions/workflows/qodana_code_quality.yml/badge.svg?branch=main)](https://github.com/dotkernel/queue/actions/workflows/qodana_code_quality.yml)
 [![PHPStan](https://github.com/dotkernel/queue/actions/workflows/static-analysis.yml/badge.svg?branch=main)](https://github.com/dotkernel/queue/actions/workflows/static-analysis.yml)
 
-## Installation
+## Clone the project
 
-Install `dotkernel/queue` by executing the following Composer command:
+Using your terminal, navigate inside the directory you want to download the project files into. Make sure that the directory is empty before proceeding to the download process. Once there, run the following command:
 
 ```shell
-composer require dotkernel/queue
+git clone https://github.com/dotkernel/queue.git .
+```
+
+## Setup
+
+After you have finished cloning the project, before installing the dependencies, you need to setup the server. Using the command line, go to your system root directory, then type the following commands:
+
+Start with updating your system
+```shell
+ sudo dnf update -y
+```
+
+Installing Apache HTTP Server
+```shell
+sudo dnf install httpd httpd-tools -y
+```
+
+Start and enable the Apache service
+```shell
+sudo systemctl start httpd
+sudo systemctl enable httpd
+```
+
+To check Apache service status run the following command
+```shell
+  sudo systemctl status httpd
+```
+
+Once you have installed Apache you can proceed to install Valkey
+```shell
+sudo dnf install valkey
+```
+
+Start Valkey service
+```shell
+sudo systemctl start valkey
+```
+
+Enable Valkey to start automatically at system boot.
+```shell
+sudo systemctl enable valkey
+```
+
+Install php-redis extension, which allows PHP to communicate with Valkey/Redis.
+```shell
+sudo dnf install php-redis
+```
+
+Restart Apache HTTP Server and PHP-FPM
+```shell
+sudo systemctl restart httpd
+sudo systemctl restart php-fpm
+```
+
+Check whether the redis extension is loaded in PHP
+```shell
+php -m | grep redis
+```
+
+Install build tools and development packages
+```shell
+sudo dnf install php-devel php-pear gcc make
+```
+
+Install the Brotli compression library and its development headers
+```shell
+sudo dnf install brotli brotli-devel
+```
+
+Check if pkg-config can locate the libbrotlienc library
+```shell
+pkg-config --libs libbrotlienc
+```
+
+Ensure pkg-config can find .pc config files by updating the environment variable with the correct path
+```shell
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
+```
+
+Install the Swoole PHP extension via PECL
+> Note: PECL options should be left default.
+```shell
+sudo pecl install swoole
+```
+
+Navigate to PHP’s config files
+```shell
+cd /etc/php.d/
+```
+
+Create a new config file for the swoole extension.
+```shell
+sudo touch 60-swoole.ini
+```
+
+Open the file in your preferred editor
+```shell
+sudo nano 60-swoole.ini
+```
+
+Add the following extension and save
+```shell
+extension=swoole.so
+```
+
+Restart services
+```shell
+sudo systemctl restart php-fpm
+sudo systemctl restart httpd
+```
+Check if swoole extension is loaded in PHP
+```shell
+php -m | grep swoole
+```
+
+After the server setup is complete, you can move on to installing the project dependencies, go to your application's root directory and run the following command.
+```shell
+composer install
+```
+
+## Usage
+
+In order to start or stop the swoole server to you can run the following commands
+```shell
+php bin/cli.php swoole:start
+```
+```shell
+php bin/cli.php swoole:stop
+```
+
+In order to start the messenger server run the following command
+```shell
+php bin/cli.php messenger:start
+```
+
+To test if everything is working properly you can simulate sending a message via TCP by running the following command
+```shell
+echo "Hello" | socat - TCP:localhost:8556
 ```
 
 ## Documentation
