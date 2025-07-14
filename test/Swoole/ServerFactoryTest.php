@@ -90,6 +90,10 @@ class ServerFactoryTest extends TestCase
      */
     public function testThrowsOnInvalidPort(): void
     {
+        if (! \extension_loaded('swoole')) {
+            $this->markTestSkipped('Swoole extension not loaded.');
+        }
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid port');
 
@@ -112,6 +116,10 @@ class ServerFactoryTest extends TestCase
      */
     public function testThrowsOnInvalidMode(): void
     {
+        if (! \extension_loaded('swoole')) {
+            $this->markTestSkipped('Swoole extension not loaded.');
+        }
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid server mode');
 
@@ -134,6 +142,10 @@ class ServerFactoryTest extends TestCase
      */
     public function testThrowsOnInvalidProtocol(): void
     {
+        if (! \extension_loaded('swoole')) {
+            $this->markTestSkipped('Swoole extension not loaded.');
+        }
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid server protocol');
 

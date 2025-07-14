@@ -17,6 +17,10 @@ class StopCommandTest extends TestCase
      */
     public function testExecuteWhenServerIsNotRunning(): void
     {
+        if (! \extension_loaded('swoole')) {
+            $this->markTestSkipped('Swoole extension not loaded.');
+        }
+
         $pidManager = $this->createMock(PidManager::class);
 
         $command = $this->getMockBuilder(StopCommand::class)
@@ -38,6 +42,10 @@ class StopCommandTest extends TestCase
      */
     public function testExecuteWhenServerStopsSuccessfully(): void
     {
+        if (! \extension_loaded('swoole')) {
+            $this->markTestSkipped('Swoole extension not loaded.');
+        }
+
         $pidManager = $this->createMock(PidManager::class);
         $pidManager->method('read')->willReturn(['1234']);
         $pidManager->expects($this->once())->method('delete');
@@ -65,6 +73,10 @@ class StopCommandTest extends TestCase
      */
     public function testExecuteWhenServerFailsToStop(): void
     {
+        if (! \extension_loaded('swoole')) {
+            $this->markTestSkipped('Swoole extension not loaded.');
+        }
+
         $pidManager = $this->createMock(PidManager::class);
         $pidManager->method('read')->willReturn(['1234']);
         $pidManager->expects($this->never())->method('delete');
