@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DotTest\Mail;
+namespace QueueTest\App;
 
 use PHPUnit\Framework\TestCase;
-use Queue\Swoole\ConfigProvider;
+use Queue\App\ConfigProvider;
 
-class SwooleConfigProviderTest extends TestCase
+class AppConfigProviderTest extends TestCase
 {
     private array $config;
 

@@ -84,7 +84,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "DotTest\\Mail\\": "test/"
+            "QueueTest\\App\\": "test/App/",
+            "QueueTest\\Swoole\\": "test/Swoole/"
         }
     },
     "scripts": {

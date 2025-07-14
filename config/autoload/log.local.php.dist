@@ -10,7 +10,7 @@ return [
                 'writers' => [
                     'FileWriter' => [
                         'name' => 'stream',
-                        'level'   => \Dot\Log\Logger::ALERT, // this is equal to 1
+                        'priority'   => \Dot\Log\Logger::ALERT, // this is equal to 1
                         'options' => [
                             'stream' => __DIR__ . '/../../log/queue-log.log',
                             'formatter' => [
