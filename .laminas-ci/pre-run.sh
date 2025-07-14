@@ -1,9 +1,17 @@
-JOB=$3
-PHP_VERSION=$4
-COMMAND=$(echo "${JOB}" | jq -r '.command')
+#!/usr/bin/env bash
 
-echo "Running pre-run  $COMMAND"
+set -e
 
-apt-get install -y php-dev php-pear
-pecl install redis
-echo "extension=redis.so" | sudo tee -a /etc/php/${PHP_VERSION}/cli/php.ini
+PHP_VERSION=$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')
+
+if [[ "$PHP_VERSION" == "8.2" ]]; then
+    pecl install swoole-5.0.3
+elif [[ "$PHP_VERSION" == "8.3" ]]; then
+    pecl install swoole-5.1.0
+else
+
+    echo "Unsupported PHP version: $PHP_VERSION"
+    exit 1
+fi
+
+echo "extension=swoole.so" >> "$(php -r 'echo php_ini_loaded_file();')"

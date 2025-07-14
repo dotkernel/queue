@@ -7,22 +7,5 @@ on:
     tags:
 
 jobs:
-  mutation:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-
-        php:
-          - "8.2"
-          - "8.3"
-    steps:
-      - name: Setup PHP with required extensions
-        uses: shivammathur/setup-php@v2
-        with:
-          extensions: redis
   ci:
     uses: laminas/workflow-continuous-integration/.github/workflows/continuous-integration.yml@1.x
-
