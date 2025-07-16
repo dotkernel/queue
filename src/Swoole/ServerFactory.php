@@ -69,6 +69,7 @@ class ServerFactory
      * @throws InvalidArgumentException For invalid $port values.
      * @throws InvalidArgumentException For invalid $mode values.
      * @throws InvalidArgumentException For invalid $protocol values.
+     * @throws \ErrorException
      */
     public function __invoke(ContainerInterface $container): SwooleServer
     {
@@ -106,7 +107,7 @@ class ServerFactory
 
         $enableCoroutine = $swooleConfig['enable_coroutine'] ?? false;
         if ($enableCoroutine) {
-            SwooleRuntime::enableCoroutine();
+            SwooleRuntime::enableCoroutine(1);
         }
 
         $httpServer    = new SwooleServer($host, $port, $mode, $protocol);
