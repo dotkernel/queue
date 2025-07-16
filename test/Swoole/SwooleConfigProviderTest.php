@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DotTest\Mail;
+namespace QueueTest\Swoole;
 
 use PHPUnit\Framework\TestCase;
 use Queue\Swoole\ConfigProvider;
