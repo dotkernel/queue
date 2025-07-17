@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-$baseUrl = 'http://localhost:8080';
+$baseUrl = 'http://queue.dotkernel.net';
 
 $databases = [
     'default' => [
-        'host'     => 'localhost',
-        'dbname'   => 'dotkernel',
+        'host'     => '',
+        'dbname'   => '',
         'user'     => '',
         'password' => '',
         'port'     => 3306,
@@ -40,9 +40,9 @@ return [
     ],
     'notification' => [
         'server' => [
-            'protocol' => '',
-            'host'     => '',
-            'port'     => '',
+            'protocol' => 'tcp',
+            'host'     => 'localhost',
+            'port'     => '8556',
             'eof'      => "\n",
         ],
     ],
