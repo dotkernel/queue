@@ -1,0 +1,15 @@
+[Unit]
+Description=Swoole startup service
+After=network.target
+
+[Service]
+Type=forking
+Restart=on-failure
+RestartSec=5
+User=queue
+Group=queue
+WorkingDirectory=/home/dotkernel/queue/
+ExecStart=/usr/bin/php /home/dotkernel/queue/bin/cli.php swoole:start
+
+[Install]
+WantedBy=multi-user.target
