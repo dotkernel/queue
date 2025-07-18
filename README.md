@@ -3,6 +3,8 @@
 > [!IMPORTANT]
 > Dotkernel component used to queue tasks to be processed asynchronously based on [netglue/laminas-messenger](https://github.com/netglue/laminas-messenger)
 
+<img width="641" height="481" alt="Queue process" src="https://github.com/user-attachments/assets/8eb60c02-4e3a-4a88-b3ff-811d0410337b" />
+
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/queue)
