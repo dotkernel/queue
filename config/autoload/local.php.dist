@@ -46,4 +46,9 @@ return [
             'eof'      => "\n",
         ],
     ],
+    'fail-safe' => [
+            'first_retry'  => 3600000,
+            'second_retry' => 43200000,
+            'third_retry'  => 86400000,
+        ],
 ];
