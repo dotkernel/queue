@@ -46,9 +46,10 @@ return [
             'eof'      => "\n",
         ],
     ],
+    //delay time until the message is added back to the queue if an error occurs during processing
     'fail-safe' => [
-            'first_retry'  => 3600000,
-            'second_retry' => 43200000,
-            'third_retry'  => 86400000,
+            'first_retry'  => 3600000,  // 1h
+            'second_retry' => 43200000, // 12h
+            'third_retry'  => 86400000, // 24h
         ],
 ];
