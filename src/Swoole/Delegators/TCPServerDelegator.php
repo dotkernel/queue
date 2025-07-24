@@ -7,7 +7,6 @@ namespace Queue\Swoole\Delegators;
 use Psr\Container\ContainerInterface;
 use Queue\App\Message\ExampleMessage;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
-// Import your commands
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
 use Swoole\Server as TCPSwooleServer;
 use Symfony\Component\Console\Application;
