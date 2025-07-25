@@ -50,22 +50,36 @@ class GetProcessedMessagesCommand extends Command
         $end   = $input->getOption('end');
         $limit = $input->getOption('limit');
 
-        if (! $end) {
-            $end = date('Y-m-d H:i:s');
-        } elseif (! preg_match('/\d{2}:\d{2}:\d{2}/', $end)) {
+        if ($start && !preg_match('/\d{2}:\d{2}:\d{2}/', $start)) {
+            $start .= ' 00:00:00';
+        }
+
+        if ($end && !preg_match('/\d{2}:\d{2}:\d{2}/', $end)) {
             $end .= ' 23:59:59';
         }
 
-        if ($limit && is_numeric($limit) && ! $start) {
-            $start = date('Y-m-d H:i:s', strtotime("-{$limit} days", strtotime($end)));
-        } elseif ($start && ! preg_match('/\d{2}:\d{2}:\d{2}/', $start)) {
-            $start .= ' 00:00:00';
+        if ($limit && is_numeric($limit)) {
+            if ($start && !$end) {
+                $end = date('Y-m-d H:i:s', strtotime("+{$limit} days", strtotime($start)));
+            } elseif (!$start && $end) {
+                $start = date('Y-m-d H:i:s', strtotime("-{$limit} days", strtotime($end)));
+            }
+        }
+
+        if (!$end) {
+            $end = date('Y-m-d H:i:s');
         }
 
         $startTimestamp = $start ? strtotime($start) : null;
         $endTimestamp   = $end ? strtotime($end) : null;
 
-        $logPath = 'log/queue-log.log';
+        $logPath = dirname(__DIR__, 3) . '/log/queue-log.log';
+
+        if (! file_exists($logPath)) {
+            $output->writeln("<error>Log file not found: $logPath</error>");
+            return Command::FAILURE;
+        }
+
         $lines   = file($logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {

@@ -19,8 +19,8 @@ return [
             "swoole:stop"         => StopCommand::class,
             "messenger:start"     => ConsumeMessagesCommand::class,
             "messenger:debug"     => DebugCommand::class,
-            "messenger:processed" => GetProcessedMessagesCommand::class,
-            "messenger:failed"    => GetFailedMessagesCommand::class,
+            "processed"           => GetProcessedMessagesCommand::class,
+            "failed"              => GetFailedMessagesCommand::class,
         ],
     ],
     FileLockerInterface::class => [
