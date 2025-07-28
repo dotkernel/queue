@@ -26,11 +26,18 @@ class ExampleMessageHandler
 
     public function __invoke(ExampleMessage $message): void
     {
+        $payload = $message->getPayload();
+
         try {
             // Throwing an exception to satisfy PHPStan (replace with own code)
-            throw new \Exception("Failed to execute");
+            // For proof of concept and testing purposes message "control" will automatically mark it as successfully
+            // processed and logged as info
+            if ($payload['foo'] === 'control') {
+                $this->logger->info($payload['foo'] . ': was processed successfully');
+            } else {
+                throw new \Exception("Failed to execute");
+            }
         } catch (\Throwable $exception) {
-            $payload = $message->getPayload();
             $this->logger->error($payload['foo'] . ' failed with message: '
                 . $exception->getMessage() . ' after ' . ($payload['retry'] ?? 0) . ' retries');
             $this->retry($payload);

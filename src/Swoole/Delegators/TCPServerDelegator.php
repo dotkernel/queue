@@ -77,7 +77,7 @@ class TCPServerDelegator
                     $logger->error("Error running command: " . $e->getMessage());
                 }
             } else {
-                $bus->dispatch(new ExampleMessage(["foo" => $data]));
+                $bus->dispatch(new ExampleMessage(["foo" => $message]));
                 $bus->dispatch(new ExampleMessage(["foo" => "with 5 seconds delay"]), [
                     new DelayStamp(5000),
                 ]);
