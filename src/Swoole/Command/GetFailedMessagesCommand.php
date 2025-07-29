@@ -11,11 +11,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function date;
+use function dirname;
 use function file;
+use function file_exists;
 use function is_numeric;
 use function json_decode;
-use function preg_match;
 use function strtolower;
 use function strtotime;
 
@@ -46,27 +46,56 @@ class GetFailedMessagesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $start = $input->getOption('start');
-        $end   = $input->getOption('end');
-        $limit = $input->getOption('limit');
+        try {
+            $startOption = $input->getOption('start');
+            $endOption   = $input->getOption('end');
+            $limit       = $input->getOption('limit');
 
-        if (! $end) {
-            $end = date('Y-m-d H:i:s');
-        } elseif (! preg_match('/\d{2}:\d{2}:\d{2}/', $end)) {
-            $end .= ' 23:59:59';
+            $startDate = $startOption ? new \DateTimeImmutable($startOption) : null;
+            $endDate   = $endOption ? new \DateTimeImmutable($endOption) : null;
+        } catch (\Exception $e) {
+            $output->writeln('<error>Invalid date format provided.</error>');
+            return Command::FAILURE;
         }
 
-        if ($limit && is_numeric($limit) && ! $start) {
-            $start = date('Y-m-d H:i:s', strtotime("-{$limit} days", strtotime($end)));
-        } elseif ($start && ! preg_match('/\d{2}:\d{2}:\d{2}/', $start)) {
-            $start .= ' 00:00:00';
+        if ($startDate && $startDate->format('H:i:s') === '00:00:00') {
+            $startDate = $startDate->setTime(0, 0, 0);
         }
 
-        $startTimestamp = $start ? strtotime($start) : null;
-        $endTimestamp   = $end ? strtotime($end) : null;
+        if ($endDate && $endDate->format('H:i:s') === '00:00:00') {
+            $endDate = $endDate->setTime(23, 59, 59);
+        }
 
-        $logPath = 'log/queue-log.log';
-        $lines   = file($logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($limit && is_numeric($limit)) {
+            if ($startDate && ! $endDate) {
+                $endDate = $startDate->modify("+{$limit} days");
+            } elseif (! $startDate && $endDate) {
+                $startDate = $endDate->modify("-{$limit} days");
+            }
+        }
+
+        if (! $endDate) {
+            $endDate = new \DateTime();
+        }
+
+        if ($startDate > $endDate) {
+            $output->writeln('<error>The start date cannot be after the end date.</error>');
+            return Command::FAILURE;
+        }
+
+        $logPath = dirname(__DIR__, 3) . '/log/queue-log.log';
+
+        if (! file_exists($logPath)) {
+            $output->writeln("<error>Log file not found: $logPath</error>");
+            return Command::FAILURE;
+        }
+
+        $lines = file($logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        $startTimestamp = $startDate?->getTimestamp();
+        $endTimestamp   = $endDate->getTimestamp();
+
+        $found = false;
 
         foreach ($lines as $line) {
             $entry = json_decode($line, true);
@@ -88,6 +117,11 @@ class GetFailedMessagesCommand extends Command
             }
 
             $output->writeln($line);
+            $found = true;
+        }
+
+        if (! $found) {
+            $output->writeln('<comment>No matching log entries found.</comment>');
         }
 
         return Command::SUCCESS;

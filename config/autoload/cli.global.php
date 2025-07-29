@@ -15,12 +15,12 @@ return [
         'version'  => '1.0.0',
         'name'     => 'DotKernel CLI',
         'commands' => [
-            "swoole:start"        => StartCommand::class,
-            "swoole:stop"         => StopCommand::class,
-            "messenger:start"     => ConsumeMessagesCommand::class,
-            "messenger:debug"     => DebugCommand::class,
-            "messenger:processed" => GetProcessedMessagesCommand::class,
-            "messenger:failed"    => GetFailedMessagesCommand::class,
+            "swoole:start"    => StartCommand::class,
+            "swoole:stop"     => StopCommand::class,
+            "messenger:start" => ConsumeMessagesCommand::class,
+            "messenger:debug" => DebugCommand::class,
+            "processed"       => GetProcessedMessagesCommand::class,
+            "failed"          => GetFailedMessagesCommand::class,
         ],
     ],
     FileLockerInterface::class => [
