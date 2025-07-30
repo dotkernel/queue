@@ -44,6 +44,7 @@
     },
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4",
+        "ext-redis": "*",
         "dotkernel/dot-cli": "^3.9",
         "dotkernel/dot-dependency-injection": "^1.2",
         "dotkernel/dot-errorhandler": "4.2.1",

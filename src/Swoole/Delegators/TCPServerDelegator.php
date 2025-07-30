@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 use Queue\App\Message\ExampleMessage;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
+use Queue\Swoole\Command\GetQueuedMessagesCommand;
 use Swoole\Server as TCPSwooleServer;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -37,6 +38,7 @@ class TCPServerDelegator
         $commandMap = [
             'processed' => GetProcessedMessagesCommand::class,
             'failed'    => GetFailedMessagesCommand::class,
+            'inventory' => GetQueuedMessagesCommand::class,
         ];
 
         $server->on('Connect', function ($server, $fd) {
