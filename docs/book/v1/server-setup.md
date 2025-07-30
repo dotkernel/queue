@@ -1,13 +1,15 @@
-## Server setup 
+# Server setup
 
 > Below instructions are working only on **AlmaLinux 9**
-> 
+>
 >For other OS's need to be adapted accordingly
 
 ## Starting point
-A server with AlmaLinux 9 freshly installed, with root access and updated 
+
+A server with AlmaLinux 9 freshly installed, with root access and updated
 
 ### Update OS
+
 dnf update
 
 ### Create a new user with sudo permissions
@@ -22,7 +24,7 @@ dnf update
 
 ### SSH to the server as new user
 
-###  Install various utilities
+### Install various utilities
 
 `sudo dnf install -y dnf-utils`
 
@@ -69,6 +71,7 @@ dnf update
 `sudo dnf install git`
 
 ### Composer
+
 `wget https://getcomposer.org/installer -O composer-installer.php`
 
 `sudo chmod 777 /usr/local/bin`
@@ -86,7 +89,7 @@ connections from outside only to certain ports, from certain IP's.
 
 `sudo systemctl enable firewalld`
 
-> Before starting the firewall, be sure you will not be locked outside 
+> Before starting the firewall, be sure you will not be locked outside
 
 `sudo firewall-offline-cmd --zone=public --add-port=22/tcp --permanent`
 

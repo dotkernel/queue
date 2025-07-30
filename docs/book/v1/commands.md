@@ -1,4 +1,4 @@
-## Available commands and usage
+# Available commands and usage
 
 The commands available are:
 

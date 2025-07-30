@@ -1,4 +1,4 @@
-## INSTALLATION 
+# INSTALLATION
 
 ### git clone
 
@@ -11,11 +11,11 @@
 - messenger.local.php.dist
 - swoole.local.php.dist
 
-## Run Composer 
+## Run Composer
 
 `composer install --no-dev`
 
-###  Create services ( daemon)
+### Create services ( daemon)
 
 - Edit the files from `/daemon` folder and set proper paths
 - copy them in /etc/systemd/system/
@@ -24,8 +24,7 @@
 
 `sudo cp /home/dotkernel/queue/daemon\messenger.service`
 
-
-### Start the daemon 
+### Start the daemon
 
 `sudo systemctl daemon-reload`
 
@@ -35,9 +34,8 @@
 
 `sudo systemctl status  swoole.service`
 
-
 ### Testing the installation
 
-Send a request from your local machine 
+Send a request from your local machine
 
 `echo "Hello" | socat -T1 - TCP:SERVER-IP:8556`
