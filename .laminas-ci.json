@@ -3,6 +3,9 @@
         "--no-scripts",
         "--no-plugins"
     ],
+    "extensions": [
+        "redis"
+    ],
     "ignore_php_platform_requirements": {
     }
 }

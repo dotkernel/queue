@@ -1,4 +1,4 @@
-## Available commands and usage
+# Available commands and usage
 
 The commands available are:
 
@@ -8,7 +8,7 @@ The commands available are:
 
 The commands can be run in two different ways:
 
-### CLI
+## CLI
 
 To run the commands via CLI, use the following syntax:
 
@@ -18,7 +18,7 @@ To run the commands via CLI, use the following syntax:
 
 `php bin/cli.php inventory`
 
-### TCP message
+## TCP message
 
 To use commands using TCP messages the following messages can be used:
 
