@@ -9,6 +9,7 @@ use Queue\Swoole\Command\Factory\StartCommandFactory;
 use Queue\Swoole\Command\Factory\StopCommandFactory;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
+use Queue\Swoole\Command\GetQueuedMessagesCommand;
 use Queue\Swoole\Command\StartCommand;
 use Queue\Swoole\Command\StopCommand;
 use Queue\Swoole\Delegators\TCPServerDelegator;
@@ -36,6 +37,7 @@ class ConfigProvider
                 StopCommand::class                 => StopCommandFactory::class,
                 GetProcessedMessagesCommand::class => AttributedServiceFactory::class,
                 GetFailedMessagesCommand::class    => AttributedServiceFactory::class,
+                GetQueuedMessagesCommand::class    => AttributedServiceFactory::class,
             ],
             "aliases"    => [],
         ];

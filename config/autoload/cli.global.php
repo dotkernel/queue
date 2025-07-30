@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Dot\Cli\FileLockerInterface;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
+use Queue\Swoole\Command\GetQueuedMessagesCommand;
 use Queue\Swoole\Command\StartCommand;
 use Queue\Swoole\Command\StopCommand;
 use Symfony\Component\Messenger\Command\ConsumeMessagesCommand;
@@ -21,6 +22,7 @@ return [
             "messenger:debug" => DebugCommand::class,
             "processed"       => GetProcessedMessagesCommand::class,
             "failed"          => GetFailedMessagesCommand::class,
+            "inventory"       => GetQueuedMessagesCommand::class,
         ],
     ],
     FileLockerInterface::class => [
