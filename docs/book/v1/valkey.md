@@ -6,7 +6,7 @@ The following commands can be run in the CLI to interact with Valkey. To enter C
 
 `valkey-cli`
 
-### Utility Commands
+## Utility Commands
 
 List all keys matching a pattern.
 
@@ -28,7 +28,7 @@ Check data type stored at a specific key (Possible types: string, list, set, zse
 
 `TYPE keyName`
 
-### Key-Value Operations
+## Key-Value Operations
 
 Set a string key to a value.
 
@@ -42,7 +42,7 @@ Delete one or more keys.
 
 `DEL keyName1 keyName2`
 
-### Stream Commands
+## Stream Commands
 
 Read entries from a stream oldest to newest (revers '-' and '+' to reverse order).
 
