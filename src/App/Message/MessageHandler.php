@@ -10,7 +10,7 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 
-class ExampleMessageHandler
+class MessageHandler
 {
     #[Inject(
         MessageBusInterface::class,
@@ -24,7 +24,7 @@ class ExampleMessageHandler
     ) {
     }
 
-    public function __invoke(ExampleMessage $message): void
+    public function __invoke(Message $message): void
     {
         $payload = $message->getPayload();
 
@@ -50,7 +50,7 @@ class ExampleMessageHandler
     public function retry(array $payload): void
     {
         if (! isset($payload['retry'])) {
-            $this->bus->dispatch(new ExampleMessage(["foo" => $payload['foo'], 'retry' => 1]), [
+            $this->bus->dispatch(new Message(["foo" => $payload['foo'], 'retry' => 1]), [
                 new DelayStamp($this->config['fail-safe']['first_retry']),
             ]);
         } else {
@@ -58,13 +58,13 @@ class ExampleMessageHandler
             switch ($retry) {
                 case 1:
                     $delay = $this->config['fail-safe']['second_retry'];
-                    $this->bus->dispatch(new ExampleMessage(["foo" => $payload['foo'], 'retry' => ++$retry]), [
+                    $this->bus->dispatch(new Message(["foo" => $payload['foo'], 'retry' => ++$retry]), [
                         new DelayStamp($delay),
                     ]);
                     break;
                 case 2:
                     $delay = $this->config['fail-safe']['third_retry'];
-                    $this->bus->dispatch(new ExampleMessage(["foo" => $payload['foo'], 'retry' => ++$retry]), [
+                    $this->bus->dispatch(new Message(["foo" => $payload['foo'], 'retry' => ++$retry]), [
                         new DelayStamp($delay),
                     ]);
                     break;
