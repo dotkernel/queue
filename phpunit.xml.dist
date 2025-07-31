@@ -10,8 +10,7 @@
     displayDetailsOnTestsThatTriggerErrors="true"
     displayDetailsOnTestsThatTriggerNotices="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
-    colors="true"
->
+    colors="true">
     <testsuites>
         <testsuite name="default">
             <directory>./test</directory>
