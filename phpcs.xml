@@ -22,7 +22,6 @@
     <rule ref="LaminasCodingStandard">
         <!-- Exclude rule -->
         <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName" />
-        <exclude-pattern>src/Core/src/App/src/Migration/*</exclude-pattern>
         <exclude-pattern>config/pipeline.php</exclude-pattern>
     </rule>
 </ruleset>
