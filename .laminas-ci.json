@@ -5,11 +5,6 @@
     "extensions": [
         "redis"
     ],
-    "before_script": [
-        "sudo apt-get update && sudo apt-get install -y php-dev php-pear libcurl4-openssl-dev libssl-dev gcc make autoconf",
-        "sudo pecl install swoole",
-        "echo 'extension=swoole.so' | sudo tee /etc/php/cli/conf.d/20-swoole.ini"
-    ],
     "ignore_php_platform_requirements": {
     }
 }
