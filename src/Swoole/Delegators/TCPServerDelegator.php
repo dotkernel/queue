@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Queue\Swoole\Delegators;
 
 use Psr\Container\ContainerInterface;
-use Queue\App\Message\ExampleMessage;
+use Queue\App\Message\Message;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
 use Queue\Swoole\Command\GetQueuedMessagesCommand;
@@ -79,8 +79,8 @@ class TCPServerDelegator
                     $logger->error("Error running command: " . $e->getMessage());
                 }
             } else {
-                $bus->dispatch(new ExampleMessage(["foo" => $message]));
-                $bus->dispatch(new ExampleMessage(["foo" => "with 5 seconds delay"]), [
+                $bus->dispatch(new Message(["foo" => $message]));
+                $bus->dispatch(new Message(["foo" => "with 5 seconds delay"]), [
                     new DelayStamp(5000),
                 ]);
 
