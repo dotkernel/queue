@@ -165,7 +165,6 @@ class TCPServerDelegatorTest extends TestCase
             }
         };
 
-        // Make sure the container returns our mock command instance
         $this->container->method('get')->willReturnMap([
             [MessageBusInterface::class, $this->bus],
             ['dot-log.queue-log', $this->logger],

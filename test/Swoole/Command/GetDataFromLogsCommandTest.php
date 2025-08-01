@@ -163,7 +163,7 @@ class GetDataFromLogsCommandTest extends TestCase
         $start = '2024-01-01 00:00:00';
         $limit = 5;
 
-        $command = new GetProcessedMessagesCommand(); // or GetFailedMessagesCommand
+        $command = new GetProcessedMessagesCommand();
         $input   = new ArrayInput([
             '--start' => $start,
             '--limit' => $limit,
