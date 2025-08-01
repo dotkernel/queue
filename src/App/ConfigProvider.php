@@ -25,7 +25,6 @@ class ConfigProvider
                     'buses' => $this->busConfig(),
                 ],
             ],
-            'templates'    => $this->getTemplates(),
         ];
     }
 
@@ -41,15 +40,6 @@ class ConfigProvider
             ],
             "aliases"   => [
                 MessageBusInterface::class => "message_bus",
-            ],
-        ];
-    }
-
-    public function getTemplates(): array
-    {
-        return [
-            'paths' => [
-                'notification-email' => [__DIR__ . '/templates'],
             ],
         ];
     }
