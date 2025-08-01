@@ -1,8 +1,5 @@
-apt-get update
-apt-get install -y php-dev php-pear libcurl4-openssl-dev libssl-dev gcc make autoconf
+JOB=$3
+PHP_VERSION=$(echo "${JOB}" | jq -r '.php')
 
-pecl channel-update pecl.php.net
-
-pecl install -f swoole
-
-echo "extension=swoole.so" > /etc/php/cli/conf.d/20-swoole.ini
+apt update
+apt install -y "php${PHP_VERSION}-swoole"
