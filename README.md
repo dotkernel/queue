@@ -11,7 +11,7 @@ The greatest benefit is to application responsiveness which allows faster execut
 
  The queue system uses logs to ensure maintainability and implements retry features for reliability and stability.
 
-![Queue process](https://github.com/user-attachments/assets/8eb60c02-4e3a-4a88-b3ff-811d0410337b)
+![Queue process](https://docs.dotkernel.org/img/queue/schema.png)
 
 ## Badges
 
