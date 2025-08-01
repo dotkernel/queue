@@ -25,7 +25,8 @@ use const JSON_UNESCAPED_UNICODE;
 )]
 class GetQueuedMessagesCommand extends Command
 {
-    protected static string $defaultName = 'inventory';
+    /** @var string $defaultName */
+    protected static $defaultName = 'inventory';
 
     private Redis $redis;
 

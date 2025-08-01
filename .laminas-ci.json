@@ -3,8 +3,12 @@
         "--no-scripts"
     ],
     "extensions": [
-        "redis",
-        "swoole"
+        "redis"
+    ],
+    "before_script": [
+        "apt-get update && apt-get install -y php-dev php-pear libcurl4-openssl-dev libssl-dev",
+        "pecl install swoole",
+        "echo 'extension=swoole.so' > /etc/php/cli/conf.d/20-swoole.ini"
     ],
     "ignore_php_platform_requirements": {
     }
