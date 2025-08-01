@@ -28,7 +28,8 @@ use const FILE_SKIP_EMPTY_LINES;
 )]
 class GetProcessedMessagesCommand extends Command
 {
-    protected static string $defaultName = 'processed';
+    /** @var string $defaultName */
+    protected static $defaultName = 'processed';
 
     #[Inject()]
     public function __construct()

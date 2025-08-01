@@ -28,7 +28,8 @@ use const FILE_SKIP_EMPTY_LINES;
 )]
 class GetFailedMessagesCommand extends Command
 {
-    protected static string $defaultName = 'failed';
+    /** @var string $defaultName */
+    protected static $defaultName = 'failed';
 
     #[Inject()]
     public function __construct()
