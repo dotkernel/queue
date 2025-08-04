@@ -69,7 +69,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "QueueTest\\Swoole\\": "test/Swoole"
+            "QueueTest\\App\\": "test/App/",
+            "QueueTest\\Swoole\\": "test/Swoole/"
         }
     },
     "scripts": {
