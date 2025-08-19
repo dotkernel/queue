@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Queue\Swoole\Delegators;
 
 use Psr\Container\ContainerInterface;
-use Queue\App\Message\ExampleMessage;
+use Queue\App\Message\Message;
 use Swoole\Server as TCPSwooleServer;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
@@ -28,8 +28,8 @@ class TCPServerDelegator
 
         // Register the function for the event `receive`
         $server->on('receive', function ($server, $fd, $fromId, $data) use ($logger, $bus) {
-            $bus->dispatch(new ExampleMessage(["foo" => $data]));
-            $bus->dispatch(new ExampleMessage(["foo" => "with 5 seconds delay"]), [
+            $bus->dispatch(new Message(["foo" => $data]));
+            $bus->dispatch(new Message(["foo" => "with 5 seconds delay"]), [
                 new DelayStamp(5000),
             ]);
 

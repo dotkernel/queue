@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Queue\App\Message;
 
-class ExampleMessage
+class Message
 {
     public function __construct(
         private array $payload,

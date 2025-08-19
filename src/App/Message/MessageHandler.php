@@ -15,7 +15,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 use function json_decode;
 
-class ExampleMessageHandler
+class MessageHandler
 {
     protected array $args = [];
 
@@ -35,18 +35,19 @@ class ExampleMessageHandler
     ) {
     }
 
-    public function __invoke(ExampleMessage $message): void
+    public function __invoke(Message $message): void
     {
         $payload = json_decode($message->getPayload()['foo'], true);
 
         if ($payload !== null && isset($payload['userUuid'])) {
             $this->logger->info("message: " . $payload['userUuid']);
             $this->args = $payload;
-        }
 
-        try {
-            $this->perform();
-        } catch (Exception $exception) {
+            try {
+                $this->perform();
+            } catch (Exception $exception) {
+                $this->logger->err("message: " . $exception->getMessage());
+            }
         }
     }
 
@@ -64,7 +65,7 @@ class ExampleMessageHandler
     public function sendWelcomeMail(): bool
     {
         $user = $this->userRepository->find($this->args['userUuid']);
-        $this->mailService->getMessage()->addTo('sergiubota@rospace.com', 'sergiu');
+        $this->mailService->getMessage()->addTo($user->getEmail(), $user->getName());
         $this->mailService->setSubject('Welcome to ' . $this->config['application']['name']);
         $body = $this->templateRenderer->render('notification-email::welcome', [
             'user'   => $user,
