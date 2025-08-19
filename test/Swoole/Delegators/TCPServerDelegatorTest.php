@@ -22,10 +22,6 @@ class TCPServerDelegatorTest extends TestCase
     #[RunInSeparateProcess]
     public function testInvokeRegistersAllCallbacks(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $logger = $this->createMock(LoggerInterface::class);
         $bus    = $this->createMock(MessageBusInterface::class);
 
@@ -57,10 +53,6 @@ class TCPServerDelegatorTest extends TestCase
     #[RunInSeparateProcess]
     public function testReceiveCallbackDispatchesMessagesAndLogs(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $dispatched = [];
 
         $bus = $this->createMock(MessageBusInterface::class);

@@ -12,8 +12,6 @@ use Psr\Container\ContainerInterface;
 use Queue\Swoole\ServerFactory;
 use Swoole\Server;
 
-use function extension_loaded;
-
 use const SWOOLE_BASE;
 use const SWOOLE_SOCK_TCP;
 
@@ -34,10 +32,6 @@ class ServerFactoryTest extends TestCase
     #[RunInSeparateProcess]
     public function testInvokeWithMinimalValidConfig(): void
     {
-        if (! extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $config = [
             'dotkernel-queue-swoole' => [
                 'swoole-tcp-server' => [],
@@ -58,10 +52,6 @@ class ServerFactoryTest extends TestCase
     #[RunInSeparateProcess]
     public function testInvokeWithCustomValidConfig(): void
     {
-        if (! extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $config = [
             'dotkernel-queue-swoole' => [
                 'enable_coroutine'  => true,
@@ -90,10 +80,6 @@ class ServerFactoryTest extends TestCase
      */
     public function testThrowsOnInvalidPort(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid port');
 
@@ -116,10 +102,6 @@ class ServerFactoryTest extends TestCase
      */
     public function testThrowsOnInvalidMode(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid server mode');
 
@@ -142,10 +124,6 @@ class ServerFactoryTest extends TestCase
      */
     public function testThrowsOnInvalidProtocol(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid server protocol');
 

@@ -22,10 +22,6 @@ class StartCommandTest extends TestCase
      */
     public function testExecuteWhenServerIsNotRunning(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $input      = $this->createMock(InputInterface::class);
         $output     = $this->createMock(OutputInterface::class);
         $pidManager = $this->createMock(PidManager::class);

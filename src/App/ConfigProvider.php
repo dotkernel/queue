@@ -10,8 +10,8 @@ use Netglue\PsrContainer\Messenger\Container\Middleware\BusNameStampMiddlewareSt
 use Netglue\PsrContainer\Messenger\Container\Middleware\MessageHandlerMiddlewareStaticFactory;
 use Netglue\PsrContainer\Messenger\Container\Middleware\MessageSenderMiddlewareStaticFactory;
 use Netglue\PsrContainer\Messenger\HandlerLocator\OneToManyFqcnContainerHandlerLocator;
-use Queue\App\Message\ExampleMessage;
-use Queue\App\Message\ExampleMessageHandler;
+use Queue\App\Message\Message;
+use Queue\App\Message\MessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class ConfigProvider
@@ -37,7 +37,7 @@ class ConfigProvider
                 "message_bus_stamp_middleware"   => [BusNameStampMiddlewareStaticFactory::class, "message_bus"],
                 "message_bus_sender_middleware"  => [MessageSenderMiddlewareStaticFactory::class, "message_bus"],
                 "message_bus_handler_middleware" => [MessageHandlerMiddlewareStaticFactory::class, "message_bus"],
-                ExampleMessageHandler::class     => AttributedServiceFactory::class,
+                MessageHandler::class            => AttributedServiceFactory::class,
             ],
             "aliases"   => [
                 MessageBusInterface::class => "message_bus",
@@ -81,7 +81,7 @@ class ConfigProvider
                  */
                 'handler_locator' => OneToManyFqcnContainerHandlerLocator::class,
                 'handlers'        => [
-                    ExampleMessage::class => [ExampleMessageHandler::class],
+                    Message::class => [MessageHandler::class],
                 ],
 
                 /**
@@ -97,7 +97,7 @@ class ConfigProvider
                  * Route specific messages to specific transports by using the message name as the key.
                  */
                 'routes' => [
-                    ExampleMessage::class => ["redis_transport"],
+                    Message::class => ["redis_transport"],
                 ],
             ],
         ];

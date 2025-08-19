@@ -15,7 +15,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 use function json_decode;
 
-class ExampleMessageHandler
+class MessageHandler
 {
     protected array $args = [];
 
@@ -35,7 +35,7 @@ class ExampleMessageHandler
     ) {
     }
 
-    public function __invoke(ExampleMessage $message): void
+    public function __invoke(Message $message): void
     {
         $payload = json_decode($message->getPayload()['foo'], true);
 

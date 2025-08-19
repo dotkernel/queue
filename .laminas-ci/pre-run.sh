@@ -1,5 +1,5 @@
-#!/bin/bash
+JOB=$3
+PHP_VERSION=$(echo "${JOB}" | jq -r '.php')
 
-# Due to the fact that we are disabling plugins when installing/updating/downgrading composer dependencies
-# we have to manually enable the coding standard here.
-composer enable-codestandard
+apt update
+apt install -y "php${PHP_VERSION}-swoole"

@@ -13,8 +13,8 @@ use Exception;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Queue\App\Message\ExampleMessage;
-use Queue\App\Message\ExampleMessageHandler;
+use Queue\App\Message\Message;
+use Queue\App\Message\MessageHandler;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 use function json_encode;
@@ -26,7 +26,7 @@ class ExampleMessageHandlerTest extends TestCase
     protected UserRepository|MockObject $userRepository;
     protected Logger $logger;
     protected array $config;
-    private ExampleMessageHandler $handler;
+    private MessageHandler $handler;
 
     /**
      * @throws Exception|\PHPUnit\Framework\MockObject\Exception
@@ -60,7 +60,7 @@ class ExampleMessageHandlerTest extends TestCase
             ],
         ];
 
-        $this->handler = new ExampleMessageHandler(
+        $this->handler = new MessageHandler(
             $this->mailService,
             $this->renderer,
             $this->userRepository,
@@ -76,12 +76,12 @@ class ExampleMessageHandlerTest extends TestCase
     {
         $uuid = '1234';
 
-        $message = $this->createMock(ExampleMessage::class);
+        $message = $this->createMock(Message::class);
         $message->method('getPayload')->willReturn([
             'foo' => json_encode(['userUuid' => $uuid]),
         ]);
 
-        $handlerMock = $this->getMockBuilder(ExampleMessageHandler::class)
+        $handlerMock = $this->getMockBuilder(MessageHandler::class)
             ->setConstructorArgs([
                 $this->mailService,
                 $this->renderer,
@@ -109,7 +109,7 @@ class ExampleMessageHandlerTest extends TestCase
         $email = 'test@dotkernel.com';
         $name  = 'dotkernel';
 
-        $message = $this->createMock(ExampleMessage::class);
+        $message = $this->createMock(Message::class);
         $message->method('getPayload')->willReturn([
             'foo' => json_encode(['userUuid' => $uuid]),
         ]);
@@ -187,7 +187,7 @@ class ExampleMessageHandlerTest extends TestCase
      */
     public function testInvokeWithInvalidJsonSkipsPerform(): void
     {
-        $message = $this->createMock(ExampleMessage::class);
+        $message = $this->createMock(Message::class);
         $message->method('getPayload')->willReturn([
             'foo' => '{"userUuid":',
         ]);

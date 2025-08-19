@@ -18,10 +18,6 @@ class StopCommandFactoryTest extends TestCase
      */
     public function testFactoryReturnsStopCommandInstance(): void
     {
-        if (! \extension_loaded('swoole')) {
-            $this->markTestSkipped('Swoole extension not loaded.');
-        }
-
         $pidManager = $this->createMock(PidManager::class);
 
         $container = $this->createMock(ContainerInterface::class);
