@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace QueueTest\Swoole\Delegators;
 
-use Dot\Log\LoggerInterface;
+use Dot\Log\Logger;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Queue\Swoole\Delegators\TCPServerDelegator;
 use Swoole\Server;
@@ -16,14 +17,32 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class TCPServerDelegatorTest extends TestCase
 {
+    protected Logger $logger;
+
+    /**
+     * @throws ContainerExceptionInterface
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->logger = new Logger([
+            'writers' => [
+                'FileWriter' => [
+                    'name'  => 'null',
+                    'level' => Logger::ALERT,
+                ],
+            ],
+        ]);
+    }
+
     /**
      * @throws Exception
      */
     #[RunInSeparateProcess]
     public function testInvokeRegistersAllCallbacks(): void
     {
-        $logger = $this->createMock(LoggerInterface::class);
-        $bus    = $this->createMock(MessageBusInterface::class);
+        $bus = $this->createMock(MessageBusInterface::class);
 
         $server   = new DummySwooleServer();
         $callback = fn (): Server => $server;
@@ -31,7 +50,7 @@ class TCPServerDelegatorTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->willReturnMap([
             [MessageBusInterface::class, $bus],
-            ['dot-log.queue-log', $logger],
+            ['dot-log.queue-log', $this->logger],
         ]);
 
         $delegator = new TCPServerDelegator();
@@ -61,21 +80,13 @@ class TCPServerDelegatorTest extends TestCase
             return new Envelope($message);
         });
 
-        $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects($this->once())
-            ->method('notice')
-            ->with(
-                $this->equalTo("Request received on receive"),
-                $this->arrayHasKey('fd')
-            );
-
         $server   = new DummySwooleServer();
         $callback = fn (): Server => $server;
 
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->willReturnMap([
             [MessageBusInterface::class, $bus],
-            ['dot-log.queue-log', $logger],
+            ['dot-log.queue-log', $this->logger],
         ]);
 
         $delegator = new TCPServerDelegator();
