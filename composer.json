@@ -55,7 +55,6 @@
         "laminas/laminas-authentication": "2.18.0",
         "laminas/laminas-component-installer": "^3.5",
         "laminas/laminas-config-aggregator": "^1.18",
-        "laminas/laminas-diactoros": "^3.0",
         "mezzio/mezzio": "^3.20",
         "mezzio/mezzio-authentication-oauth2": "^2.11",
         "mezzio/mezzio-twigrenderer": "^2.17.0",
