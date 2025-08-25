@@ -41,8 +41,8 @@ class ExampleMessageHandlerTest extends TestCase
         $this->logger         = new Logger([
             'writers' => [
                 'FileWriter' => [
-                    'name'     => 'null',
-                    'priority' => Logger::ALERT,
+                    'name'  => 'null',
+                    'level' => Logger::ALERT,
                 ],
             ],
         ]);
