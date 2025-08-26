@@ -46,22 +46,16 @@ class MessageHandler
             try {
                 $this->perform();
             } catch (Exception $exception) {
-                $this->logger->err("message: " . $exception->getMessage());
+                $this->logger->error("message: " . $exception->getMessage());
             }
         }
     }
 
-    /**
-     * @throws MailException
-     */
     public function perform(): void
     {
         $this->sendWelcomeMail();
     }
 
-    /**
-     * @throws MailException
-     */
     public function sendWelcomeMail(): bool
     {
         $user = $this->userRepository->find($this->args['userUuid']);

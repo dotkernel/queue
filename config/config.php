@@ -24,13 +24,13 @@ $aggregator = new ConfigAggregator([
     Queue\Swoole\ConfigProvider::class,
 
     // Dotkernel packages
-    Dot\Log\ConfigProvider::class,
+    Dot\Cache\ConfigProvider::class,
     Dot\Cli\ConfigProvider::class,
     Dot\DataFixtures\ConfigProvider::class,
     Dot\DependencyInjection\ConfigProvider::class,
+    Dot\ErrorHandler\ConfigProvider::class,
+    Dot\Log\ConfigProvider::class,
     Dot\Mail\ConfigProvider::class,
-    Dot\Twig\ConfigProvider::class,
-    Dot\Cache\ConfigProvider::class,
 
     // Core modules
     Core\Admin\ConfigProvider::class,

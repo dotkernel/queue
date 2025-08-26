@@ -7,7 +7,7 @@ namespace Core\App\Service;
 use Core\App\Message;
 use Core\User\Entity\User;
 use Dot\DependencyInjection\Attribute\Inject;
-use Dot\Log\LoggerInterface;
+use Dot\Log\Logger;
 use Dot\Mail\Exception\MailException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
@@ -25,7 +25,7 @@ class MailService
     )]
     public function __construct(
         protected \Dot\Mail\Service\MailService $mailService,
-        protected LoggerInterface $logger,
+        protected Logger $logger,
         private readonly array $config,
     ) {
     }
@@ -46,7 +46,7 @@ class MailService
         try {
             return $this->mailService->send()->isValid();
         } catch (MailException | TransportExceptionInterface $exception) {
-            $this->logger->err($exception->getMessage());
+            $this->logger->error($exception->getMessage());
             throw new MailException(sprintf(Message::MAIL_NOT_SENT_TO, $user->getEmail()));
         }
     }
@@ -65,7 +65,7 @@ class MailService
         try {
             return $this->mailService->send()->isValid();
         } catch (MailException | TransportExceptionInterface $exception) {
-            $this->logger->err($exception->getMessage());
+            $this->logger->error($exception->getMessage());
             throw new MailException(sprintf(Message::MAIL_NOT_SENT_TO, $user->getEmail()));
         }
     }
@@ -84,7 +84,7 @@ class MailService
         try {
             return $this->mailService->send()->isValid();
         } catch (MailException | TransportExceptionInterface $exception) {
-            $this->logger->err($exception->getMessage());
+            $this->logger->error($exception->getMessage());
             throw new MailException(sprintf(Message::MAIL_NOT_SENT_TO, $user->getEmail()));
         }
     }
@@ -103,7 +103,7 @@ class MailService
         try {
             return $this->mailService->send()->isValid();
         } catch (MailException | TransportExceptionInterface $exception) {
-            $this->logger->err($exception->getMessage());
+            $this->logger->error($exception->getMessage());
             throw new MailException(sprintf(Message::MAIL_NOT_SENT_TO, $user->getEmail()));
         }
     }
@@ -120,7 +120,7 @@ class MailService
         try {
             return $this->mailService->send()->isValid();
         } catch (MailException | TransportExceptionInterface $exception) {
-            $this->logger->err($exception->getMessage());
+            $this->logger->error($exception->getMessage());
             throw new MailException(sprintf(Message::MAIL_NOT_SENT_TO, $user->getEmail()));
         }
     }
