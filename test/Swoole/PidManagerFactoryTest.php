@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace QueueTest\Swoole;
 
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Queue\Swoole\PidManagerFactory;
+use ReflectionClass;
 use ReflectionException;
 
 final class PidManagerFactoryTest extends TestCase
 {
     /**
-     * @throws Exception
+     * @throws ContainerExceptionInterface
      * @throws ReflectionException
+     * @throws NotFoundExceptionInterface
      */
     public function testCreatesPidManagerWithConfiguredPidFile(): void
     {
@@ -47,7 +50,7 @@ final class PidManagerFactoryTest extends TestCase
      */
     private function getPrivateProperty(object $object): mixed
     {
-        $reflection = new \ReflectionClass($object);
+        $reflection = new ReflectionClass($object);
         $property   = $reflection->getProperty('pidFile');
         return $property->getValue($object);
     }

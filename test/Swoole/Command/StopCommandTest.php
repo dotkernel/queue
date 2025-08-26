@@ -49,9 +49,7 @@ class StopCommandTest extends TestCase
 
         $command->method('isRunning')->willReturn(true);
 
-        $command->killProcess = function (int $pid, ?int $signal = null): bool {
-            return true;
-        };
+        $command->killProcess = fn (): bool => true;
 
         $tester   = new CommandTester($command);
         $exitCode = $tester->execute([]);

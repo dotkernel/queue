@@ -16,11 +16,11 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 
+use const PHP_EOL;
+
 class MessageHandlerTest extends TestCase
 {
     private MessageBusInterface|MockObject $bus;
-    private Logger $logger;
-    private array $config;
     private MessageHandler $handler;
 
     /**
@@ -29,8 +29,9 @@ class MessageHandlerTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->bus    = $this->createMock(MessageBusInterface::class);
-        $this->logger = new Logger([
+        $this->bus = $this->createMock(MessageBusInterface::class);
+
+        $logger = new Logger([
             'writers' => [
                 'FileWriter' => [
                     'name'  => 'null',
@@ -38,7 +39,7 @@ class MessageHandlerTest extends TestCase
                 ],
             ],
         ]);
-        $this->config = [
+        $config = [
             'fail-safe'    => [
                 'first_retry'  => 1000,
                 'second_retry' => 2000,
@@ -49,7 +50,7 @@ class MessageHandlerTest extends TestCase
                     'protocol' => 'tcp',
                     'host'     => 'localhost',
                     'port'     => '8556',
-                    'eof'      => "\n",
+                    'eof'      => PHP_EOL,
                 ],
             ],
             'application'  => [
@@ -57,11 +58,12 @@ class MessageHandlerTest extends TestCase
             ],
         ];
 
-        $this->handler = new MessageHandler($this->bus, $this->logger, $this->config);
+        $this->handler = new MessageHandler($this->bus, $logger, $config);
     }
 
     /**
      * @throws Exception
+     * @throws ExceptionInterface
      */
     public function testInvokeSuccessfulProcessing(): void
     {
@@ -76,6 +78,7 @@ class MessageHandlerTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ExceptionInterface
      */
     public function testInvokeFailureTriggersFirstRetry(): void
     {

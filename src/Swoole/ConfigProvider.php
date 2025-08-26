@@ -27,10 +27,10 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            "delegators" => [
+            'delegators' => [
                 TCPSwooleServer::class => [TCPServerDelegator::class],
             ],
-            "factories"  => [
+            'factories'  => [
                 TCPSwooleServer::class             => ServerFactory::class,
                 PidManager::class                  => PidManagerFactory::class,
                 StartCommand::class                => StartCommandFactory::class,
@@ -39,7 +39,6 @@ class ConfigProvider
                 GetFailedMessagesCommand::class    => AttributedServiceFactory::class,
                 GetQueuedMessagesCommand::class    => AttributedServiceFactory::class,
             ],
-            "aliases"    => [],
         ];
     }
 }
