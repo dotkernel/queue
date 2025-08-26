@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Queue\Swoole\Command;
 
+use DateTime;
+use DateTimeImmutable;
 use Dot\DependencyInjection\Attribute\Inject;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +34,7 @@ class GetProcessedMessagesCommand extends Command
     /** @var string $defaultName */
     protected static $defaultName = 'processed';
 
-    #[Inject()]
+    #[Inject]
     public function __construct()
     {
         parent::__construct(self::$defaultName);
@@ -52,15 +55,15 @@ class GetProcessedMessagesCommand extends Command
             $endOption   = $input->getOption('end');
             $limit       = $input->getOption('limit');
 
-            $startDate = $startOption ? new \DateTimeImmutable($startOption) : null;
-            $endDate   = $endOption ? new \DateTimeImmutable($endOption) : null;
-        } catch (\Exception $e) {
+            $startDate = $startOption ? new DateTimeImmutable($startOption) : null;
+            $endDate   = $endOption ? new DateTimeImmutable($endOption) : null;
+        } catch (Exception) {
             $output->writeln('<error>Invalid date format provided.</error>');
             return Command::FAILURE;
         }
 
         if ($startDate && $startDate->format('H:i:s') === '00:00:00') {
-            $startDate = $startDate->setTime(0, 0, 0);
+            $startDate = $startDate->setTime(0, 0);
         }
 
         if ($endDate && $endDate->format('H:i:s') === '00:00:00') {
@@ -69,14 +72,14 @@ class GetProcessedMessagesCommand extends Command
 
         if ($limit && is_numeric($limit)) {
             if ($startDate && ! $endDate) {
-                $endDate = $startDate->modify("+{$limit} days");
+                $endDate = $startDate->modify("+$limit days");
             } elseif (! $startDate && $endDate) {
-                $startDate = $endDate->modify("-{$limit} days");
+                $startDate = $endDate->modify("-$limit days");
             }
         }
 
         if (! $endDate) {
-            $endDate = new \DateTime();
+            $endDate = new DateTime();
         }
 
         if ($startDate > $endDate) {
@@ -87,7 +90,7 @@ class GetProcessedMessagesCommand extends Command
         $logPath = dirname(__DIR__, 3) . '/log/queue-log.log';
 
         if (! file_exists($logPath)) {
-            $output->writeln("<error>Log file not found: $logPath</error>");
+            $output->writeln("<error>Log file was not found: $logPath</error>");
             return Command::FAILURE;
         }
 

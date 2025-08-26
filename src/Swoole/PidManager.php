@@ -22,7 +22,7 @@ class PidManager
     }
 
     /**
-     * Write master pid and manager pid to pid file
+     * Write master pid and manager pid to a pid file
      *
      * @throws RuntimeException When $pidFile is not writable.
      */
@@ -36,7 +36,7 @@ class PidManager
     }
 
     /**
-     * Read master pid and manager pid from pid file
+     * Read master pid and manager pid from a pid file
      *
      * @return string[] Array with master and manager PID values as strings
      */

@@ -10,11 +10,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Queue\App\Message\Message;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
 use Queue\Swoole\Delegators\TCPServerDelegator;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+
+use const PHP_EOL;
 
 class TCPServerDelegatorTest extends TestCase
 {
@@ -43,6 +46,10 @@ class TCPServerDelegatorTest extends TestCase
         $this->server    = new DummySwooleServer();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testCallbacksAreRegistered(): void
     {
         $callback = fn() => $this->server;
@@ -56,15 +63,19 @@ class TCPServerDelegatorTest extends TestCase
         $result    = $delegator($this->container, 'tcp-server', $callback);
 
         $this->assertSame($this->server, $result);
-        $this->assertArrayHasKey('Connect', $this->server->callbacks);
+        $this->assertArrayHasKey('connect', $this->server->callbacks);
         $this->assertArrayHasKey('receive', $this->server->callbacks);
-        $this->assertArrayHasKey('Close', $this->server->callbacks);
+        $this->assertArrayHasKey('close', $this->server->callbacks);
 
-        foreach (['Connect', 'receive', 'Close'] as $event) {
+        foreach (['connect', 'receive', 'close'] as $event) {
             $this->assertIsCallable($this->server->callbacks[$event]);
         }
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testConnectOutputsExpectedString(): void
     {
         $callback = fn() => $this->server;
@@ -77,12 +88,16 @@ class TCPServerDelegatorTest extends TestCase
         $delegator = new TCPServerDelegator();
         $delegator($this->container, 'tcp-server', $callback);
 
-        $this->expectOutputString("Client: Connect.\n");
+        $this->expectOutputString('Client: Connect.' . PHP_EOL);
 
-        $connectCb = $this->server->callbacks['Connect'];
+        $connectCb = $this->server->callbacks['connect'];
         $connectCb($this->server, 1);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testCloseOutputsExpectedString(): void
     {
         $callback = fn() => $this->server;
@@ -95,12 +110,16 @@ class TCPServerDelegatorTest extends TestCase
         $delegator = new TCPServerDelegator();
         $delegator($this->container, 'tcp-server', $callback);
 
-        $this->expectOutputString("Client: Close.\n");
+        $this->expectOutputString('Client: Close.' . PHP_EOL);
 
-        $closeCb = $this->server->callbacks['Close'];
+        $closeCb = $this->server->callbacks['close'];
         $closeCb($this->server, 1);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testReceiveDispatchesMessagesAndLogsWhenUnknownCommand(): void
     {
         $callback = fn() => $this->server;
@@ -137,6 +156,10 @@ class TCPServerDelegatorTest extends TestCase
         $receiveCb($this->server, 42, 5, "hello");
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testReceiveExecutesKnownCommandSuccessfully(): void
     {
         $callback = fn() => $this->server;
@@ -182,11 +205,14 @@ class TCPServerDelegatorTest extends TestCase
         $this->assertStringContainsString('processed output text', $this->server->sentData);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testReceiveParsesKnownOptions(): void
     {
         $callback = fn() => $this->server;
 
-        $sentData     = null;
         $this->server = new class extends DummySwooleServer {
             public ?string $sentData = null;
 

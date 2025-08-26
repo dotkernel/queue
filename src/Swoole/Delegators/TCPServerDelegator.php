@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Queue\Swoole\Delegators;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Queue\App\Message\Message;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
@@ -15,6 +17,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
+use Throwable;
 
 use function array_merge;
 use function array_shift;
@@ -23,8 +26,14 @@ use function ltrim;
 use function str_starts_with;
 use function trim;
 
+use const PHP_EOL;
+
 class TCPServerDelegator
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container, string $serviceName, callable $callback): TCPSwooleServer
     {
         /** @var TCPSwooleServer $server */
@@ -33,22 +42,20 @@ class TCPServerDelegator
         /** @var MessageBusInterface $bus */
         $bus = $container->get(MessageBusInterface::class);
 
-        $logger = $container->get("dot-log.queue-log");
+        $logger = $container->get('dot-log.queue-log');
 
-        $commandMap = [
-            'processed' => GetProcessedMessagesCommand::class,
-            'failed'    => GetFailedMessagesCommand::class,
-            'inventory' => GetQueuedMessagesCommand::class,
-        ];
-
-        $server->on('Connect', function ($server, $fd) {
-            echo "Client: Connect.\n";
+        $server->on('connect', function (TCPSwooleServer $server, int $fd) {
+            echo 'Client: Connect.' . PHP_EOL;
         });
 
-        $server->on('receive', function ($server, $fd, $fromId, $data) use ($logger, $bus, $commandMap, $container) {
-            $message  = trim($data);
-            $response = '';
+        $server->on('receive', function ($server, $fd, $fromId, $data) use ($logger, $bus, $container) {
+            $commandMap = [
+                'processed' => GetProcessedMessagesCommand::class,
+                'failed'    => GetFailedMessagesCommand::class,
+                'inventory' => GetQueuedMessagesCommand::class,
+            ];
 
+            $message     = trim($data);
             $args        = explode(' ', $message);
             $commandName = array_shift($args);
 
@@ -75,16 +82,16 @@ class TCPServerDelegator
                     $application->run($input, $output);
                     $response = $output->fetch();
                     $server->send($fd, $response);
-                } catch (\Throwable $e) {
-                    $logger->error("Error running command: " . $e->getMessage());
+                } catch (Throwable $e) {
+                    $logger->error('Error running command: ' . $e->getMessage());
                 }
             } else {
-                $bus->dispatch(new Message(["foo" => $message]));
-                $bus->dispatch(new Message(["foo" => "with 5 seconds delay"]), [
+                $bus->dispatch(new Message(['foo' => $message]));
+                $bus->dispatch(new Message(['foo' => 'with 5 seconds delay']), [
                     new DelayStamp(5000),
                 ]);
 
-                $logger->notice("TCP request received", [
+                $logger->notice('TCP request received', [
                     'fd'      => $fd,
                     'from_id' => $fromId,
                     'data'    => $data,
@@ -92,8 +99,8 @@ class TCPServerDelegator
             }
         });
 
-        $server->on('Close', function ($server, $fd) {
-            echo "Client: Close.\n";
+        $server->on('close', function (TCPSwooleServer $server, int $fd) {
+            echo 'Client: Close.' . PHP_EOL;
         });
 
         return $server;

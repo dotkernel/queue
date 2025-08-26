@@ -11,7 +11,7 @@ class MessageTest extends TestCase
 {
     public function testMessageAccessors(): void
     {
-        $admin = new Message(["payload" => "test message payload"]);
-        $this->assertSame(["payload" => "test message payload"], $admin->getPayload());
+        $admin = new Message(['payload' => 'test message payload']);
+        $this->assertSame(['payload' => 'test message payload'], $admin->getPayload());
     }
 }

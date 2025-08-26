@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Queue\Swoole;
 
 use ArrayAccess;
+use ErrorException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Queue\Swoole\Exception\InvalidArgumentException;
 use Swoole\Runtime as SwooleRuntime;
 use Swoole\Server as SwooleServer;
@@ -66,10 +69,12 @@ class ServerFactory
      * @see https://www.swoole.co.uk/docs/modules/swoole-server-methods#swoole_server-__construct
      * @see https://www.swoole.co.uk/docs/modules/swoole-server/predefined-constants for $mode and $protocol constant
      *
+     * @throws ContainerExceptionInterface
+     * @throws ErrorException
      * @throws InvalidArgumentException For invalid $port values.
      * @throws InvalidArgumentException For invalid $mode values.
      * @throws InvalidArgumentException For invalid $protocol values.
-     * @throws \ErrorException
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): SwooleServer
     {

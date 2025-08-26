@@ -28,22 +28,20 @@ EOH;
     /**
      * @internal
      *
-     * @var Closure Callable to execute when attempting to kill the server
-     *     process. Generally speaking, this is SwooleProcess::kill; only
-     *     change the value when testing.
+     * Callable to execute when attempting to kill the server process.
+     * Generally speaking, this is SwooleProcess::kill; only change the value when testing.
      */
-    public $killProcess;
+    public Closure $killProcess;
 
     /**
      * @internal
      *
-     * @var int How long to wait for the server process to end. Only change
-     *     the value when testing.
+     * How long to wait for the server process to end.
+     * Only change the value when testing.
      */
-    public $waitThreshold = 60;
+    public int $waitThreshold = 60;
 
-    /** @var PidManager */
-    private $pidManager;
+    private PidManager $pidManager;
 
     public function __construct(PidManager $pidManager, string $name = 'stop')
     {

@@ -6,13 +6,21 @@ namespace QueueTest\Swoole\Delegators;
 
 use Swoole\Server;
 
+use const SWOOLE_BASE;
+use const SWOOLE_SOCK_TCP;
+
 class DummySwooleServer extends Server
 {
     /** @var array<string, callable> */
     public array $callbacks = [];
 
-    public function __construct()
-    {
+    public function __construct(
+        string $host = '0.0.0.0',
+        int $port = 0,
+        int $mode = SWOOLE_BASE,
+        int $sockType = SWOOLE_SOCK_TCP,
+    ) {
+        parent::__construct($host, $port, $mode, $sockType);
     }
 
     /**

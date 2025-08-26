@@ -13,10 +13,10 @@
 
     <!-- Paths to check -->
     <file>config</file>
+    <file>public</file>
     <file>src</file>
     <file>test</file>
     <exclude-pattern>config/config.php</exclude-pattern>
-    <exclude-pattern>config/routes.php</exclude-pattern>
 
     <!-- Include all rules from the Laminas Coding Standard -->
     <rule ref="LaminasCodingStandard">

@@ -7,9 +7,10 @@ namespace QueueTest\Swoole;
 use ErrorException;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Queue\Swoole\ServerFactory;
 use Swoole\Server;
 
@@ -28,7 +29,9 @@ class ServerFactoryTest extends TestCase
     }
 
     /**
-     * @throws Exception|ErrorException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ErrorException
      */
     #[RunInSeparateProcess]
     public function testInvokeWithMinimalValidConfig(): void
@@ -48,7 +51,8 @@ class ServerFactoryTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws ErrorException
      */
     #[RunInSeparateProcess]
@@ -78,7 +82,8 @@ class ServerFactoryTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws ErrorException
      */
     public function testThrowsOnInvalidPort(): void
@@ -101,7 +106,9 @@ class ServerFactoryTest extends TestCase
     }
 
     /**
-     * @throws Exception|ErrorException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ErrorException
      */
     public function testThrowsOnInvalidMode(): void
     {
@@ -123,7 +130,8 @@ class ServerFactoryTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws ErrorException
      */
     public function testThrowsOnInvalidProtocol(): void
