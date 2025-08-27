@@ -16,7 +16,7 @@ The queue system uses logs to ensure maintainability and implements retry featur
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/queue)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/queue/1.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/queue/1.0.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/queue)](https://github.com/dotkernel/queue/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/queue)](https://github.com/dotkernel/queue/network)
