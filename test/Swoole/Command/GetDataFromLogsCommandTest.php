@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace QueueTest\Swoole\Command;
 
+use DateTime;
 use DateTimeImmutable;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
@@ -25,15 +27,15 @@ use const PHP_EOL;
 
 class GetDataFromLogsCommandTest extends TestCase
 {
-    private string $logDir;
     private string $logPath;
 
     protected function setUp(): void
     {
-        $this->logDir  = dirname(__DIR__, 3) . '/log';
-        $this->logPath = $this->logDir . '/queue-log.log';
-        if (! is_dir($this->logDir)) {
-            mkdir($this->logDir, 0777, true);
+        $logDir = dirname(__DIR__, 3) . '/log';
+
+        $this->logPath = $logDir . '/queue-log.log';
+        if (! is_dir($logDir)) {
+            mkdir($logDir, 0777, true);
         }
         file_put_contents($this->logPath, '');
     }
@@ -92,7 +94,7 @@ class GetDataFromLogsCommandTest extends TestCase
         $exit = $command->run($input, $output);
 
         $this->assertEquals(Command::FAILURE, $exit);
-        $this->assertStringContainsString('Log file not found', $output->fetch());
+        $this->assertStringContainsString('Log file was not found', $output->fetch());
     }
 
     /**
@@ -120,7 +122,7 @@ class GetDataFromLogsCommandTest extends TestCase
      */
     public function testMalformedLogLineIgnored(string $commandClass): void
     {
-        file_put_contents($this->logPath, "not-a-json\n");
+        file_put_contents($this->logPath, 'not-a-json' . PHP_EOL);
 
         $command = new $commandClass();
         $input   = new ArrayInput([]);
@@ -139,7 +141,7 @@ class GetDataFromLogsCommandTest extends TestCase
     {
         $line = json_encode([
             'levelName' => $expectedLevel,
-            'timestamp' => (new \DateTime())->format('Y-m-d H:i:s'),
+            'timestamp' => (new DateTime())->format('Y-m-d H:i:s'),
             'message'   => 'Message here',
         ]);
         file_put_contents($this->logPath, $line . PHP_EOL);
@@ -155,8 +157,8 @@ class GetDataFromLogsCommandTest extends TestCase
     }
 
     /**
+     * @throws Exception
      * @throws ExceptionInterface
-     * @throws \DateMalformedStringException
      */
     public function testLimitAddsDaysToStartDateOnly(): void
     {
@@ -170,7 +172,7 @@ class GetDataFromLogsCommandTest extends TestCase
         ]);
 
         $output  = new BufferedOutput();
-        $logDate = (new DateTimeImmutable($start))->modify("+{$limit} days")->format('Y-m-d H:i:s');
+        $logDate = (new DateTimeImmutable($start))->modify("+$limit days")->format('Y-m-d H:i:s');
 
         file_put_contents($this->logPath, json_encode([
             'levelName' => 'info',

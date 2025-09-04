@@ -9,7 +9,7 @@ use Swoole\Process as SwooleProcess;
 trait IsRunningTrait
 {
     /**
-     * Is the swoole  server running?
+     * Is the Swoole server running?
      */
     public function isRunning(): bool
     {

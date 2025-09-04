@@ -6,6 +6,7 @@ namespace QueueTest\Swoole\Exception;
 
 use PHPUnit\Framework\TestCase;
 use Queue\Swoole\Exception\InvalidStaticResourceMiddlewareException;
+use stdClass;
 
 use function get_debug_type;
 use function sprintf;
@@ -14,7 +15,7 @@ class InvalidStaticResourceMiddlewareExceptionTest extends TestCase
 {
     public function testForMiddlewareAtPositionReturnsExpectedException(): void
     {
-        $middleware = new \stdClass();
+        $middleware = new stdClass();
         $position   = 2;
 
         $exception = InvalidStaticResourceMiddlewareException::forMiddlewareAtPosition($middleware, $position);

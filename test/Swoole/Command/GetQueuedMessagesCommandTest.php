@@ -30,6 +30,9 @@ class GetQueuedMessagesCommandTest extends TestCase
         $this->redisMock = $this->createMock(Redis::class);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function testExecuteWithNoMessages(): void
     {
         $this->redisMock
@@ -75,7 +78,7 @@ class GetQueuedMessagesCommandTest extends TestCase
         $this->assertEquals(Command::SUCCESS, $exitCode);
 
         foreach (array_keys($fakeMessages) as $id) {
-            $this->assertStringContainsString("Message ID:", $outputText);
+            $this->assertStringContainsString('Message ID:', $outputText);
             $this->assertStringContainsString($id, $outputText);
         }
 
@@ -91,7 +94,7 @@ class GetQueuedMessagesCommandTest extends TestCase
         $this->redisMock
             ->expects($this->once())
             ->method('xRange')
-            ->willThrowException(new RedisException("Redis unavailable"));
+            ->willThrowException(new RedisException('Redis unavailable'));
 
         $command = new GetQueuedMessagesCommand($this->redisMock);
         $input   = new ArrayInput([]);

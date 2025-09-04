@@ -19,7 +19,7 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            "dependencies" => $this->getDependencies(),
+            'dependencies' => $this->getDependencies(),
             'symfony'      => [
                 'messenger' => [
                     'buses' => $this->busConfig(),
@@ -31,15 +31,15 @@ class ConfigProvider
     private function getDependencies(): array
     {
         return [
-            "factories" => [
-                "message_bus"                    => [MessageBusStaticFactory::class, "message_bus"],
-                "message_bus_stamp_middleware"   => [BusNameStampMiddlewareStaticFactory::class, "message_bus"],
-                "message_bus_sender_middleware"  => [MessageSenderMiddlewareStaticFactory::class, "message_bus"],
-                "message_bus_handler_middleware" => [MessageHandlerMiddlewareStaticFactory::class, "message_bus"],
+            'factories' => [
+                'message_bus'                    => [MessageBusStaticFactory::class, 'message_bus'],
+                'message_bus_stamp_middleware'   => [BusNameStampMiddlewareStaticFactory::class, 'message_bus'],
+                'message_bus_sender_middleware'  => [MessageSenderMiddlewareStaticFactory::class, 'message_bus'],
+                'message_bus_handler_middleware' => [MessageHandlerMiddlewareStaticFactory::class, 'message_bus'],
                 MessageHandler::class            => AttributedServiceFactory::class,
             ],
-            "aliases"   => [
-                MessageBusInterface::class => "message_bus",
+            'aliases'   => [
+                MessageBusInterface::class => 'message_bus',
             ],
         ];
     }
@@ -47,7 +47,7 @@ class ConfigProvider
     private function busConfig(): array
     {
         return [
-            "message_bus" => [
+            'message_bus' => [
                 // Means that it's an error if no handlers are defined for a given message
                 'allows_zero_handlers' => false,
 
@@ -58,7 +58,7 @@ class ConfigProvider
                  */
                 'middleware' => [
                     // … Middleware that inspects the message before it has been sent to a transport would go here.
-                    "message_bus_stamp_middleware",
+                    'message_bus_stamp_middleware',
                     'message_bus_sender_middleware', // Sends messages via a transport if configured.
                     'message_bus_handler_middleware', // Executes the handlers configured for the message
                 ],
@@ -78,16 +78,16 @@ class ConfigProvider
                  * Routes define which transport(s) that messages dispatched on this bus should be sent with.
                  *
                  * The * wildcard applies to all messages.
-                 * The transport for each route must be an array of one or more transport identifiers. Each transport
-                 * is retrieved from the DI container by this value.
+                 * The transport for each route must be an array of one or more transport identifiers.
+                 * This value retrieves each transport from the DI container.
                  *
                  * An empty routes definition would mean that messages would be handled immediately and synchronously,
-                 * i.e. no transport would be used.
+                 * i.e., no transport would be used.
                  *
                  * Route specific messages to specific transports by using the message name as the key.
                  */
                 'routes' => [
-                    Message::class => ["redis_transport"],
+                    Message::class => ['redis_transport'],
                 ],
             ],
         ];
