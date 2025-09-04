@@ -1,25 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 use Netglue\PsrContainer\Messenger\Container\TransportFactory;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface as SymfonySerializer;
 
 return [
-    "symfony" => [
+    "symfony"      => [
         "messenger" => [
-            "transports" => [
-                "redis_transport" => [
-                    'dsn' => 'redis://127.0.0.1:6379/messages',
-                    'options' => [], // Redis specific options
+            'transports'        => [
+                'redis_transport' => [
+                    'dsn'            => 'redis://127.0.0.1:6379/messages',
+                    'serializer'     => SymfonySerializer::class,
+                    'retry_strategy' => [
+                        'max_retries' => 3, //maximum number of times a message will be retried after the first failure
+                        'delay'       => 1000 // initial delay before retrying a failed message, in milliseconds,
+                        'multiplier'  => 2 // factor to increase the delay for each subsequent retry,
+                        'max_delay'   => 0 // maximum delay between retries, in milliseconds,
+                    ],
+                ],
+                // separate transport for failed messages
+                'failed'          => [
+                    'dsn'        => 'redis://127.0.0.1:6379/failed',
                     'serializer' => SymfonySerializer::class,
-                ]
-            ]
-        ]
+                ],
+            ],
+            // tells Messenger that the transport to store failed messages is "failed"
+            'failure_transport' => 'failed',
+        ],
     ],
     "dependencies" => [
         "factories" => [
-            "redis_transport" => [TransportFactory::class, 'redis_transport'],
-            SymfonySerializer::class => fn(\Psr\Container\ContainerInterface $container) => new PhpSerializer()
-        ]
-    ]
+            "redis_transport"        => [TransportFactory::class, 'redis_transport'],
+            "failed"                 => [TransportFactory::class, 'failed'],
+            SymfonySerializer::class => fn(ContainerInterface $container) => new PhpSerializer(),
+        ],
+    ],
 ];

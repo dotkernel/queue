@@ -11,10 +11,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Queue\App\Message\Message;
 use Queue\App\Message\MessageHandler;
-use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use RuntimeException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\DelayStamp;
 
 class MessageHandlerTest extends TestCase
 {
@@ -60,94 +58,51 @@ class MessageHandlerTest extends TestCase
         $this->handler = new MessageHandler($this->bus, $this->logger, $this->config);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testInvokeSuccessfulProcessing(): void
+    public function testControlMessageDoesNotThrowAndDoesNotSetRetryCount(): void
     {
-        $payload = ['foo' => 'control'];
-        $message = $this->createMock(Message::class);
-        $message->method('getPayload')->willReturn($payload);
+        $handler = $this->handler;
 
-        $this->handler->__invoke($message);
+        $message = new Message(['foo' => 'control']);
+        $handler($message);
 
-        $this->expectNotToPerformAssertions();
+        $payload = $message->getPayload();
+        $this->assertArrayNotHasKey('retry_count', $payload);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testInvokeFailureTriggersFirstRetry(): void
+    public function testRetryMessageThrowsExceptionAndSetsRetryCount(): void
     {
-        $payload = ['foo' => 'fail'];
-        $message = $this->createMock(Message::class);
-        $message->method('getPayload')->willReturn($payload);
+        $handler = $this->handler;
 
-        $this->bus->expects($this->once())
-            ->method('dispatch')
-            ->with(
-                $this->callback(function ($msg) {
-                    return $msg instanceof Message
-                        && $msg->getPayload()['foo'] === 'fail'
-                        && $msg->getPayload()['retry'] === 1;
-                }),
-                $this->callback(function ($stamps) {
-                    return isset($stamps[0]) && $stamps[0] instanceof DelayStamp
-                        && $stamps[0]->getDelay() === 1000;
-                })
-            )
-            ->willReturn(new Envelope($message));
+        $message = new Message(['foo' => 'retry']);
 
-        $this->handler->__invoke($message);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("Intentional failure for testing retries");
+
+        try {
+            $handler($message);
+        } finally {
+            $payload = $message->getPayload();
+            $this->assertArrayHasKey('retry_count', $payload);
+            $this->assertEquals(1, $payload['retry_count']); // first retry
+        }
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
-    public function testRetrySecondTime(): void
+    public function testRetryMessageWithExistingRetryCountIncrementsIt(): void
     {
-        $payload = ['foo' => 'retry_test', 'retry' => 1];
+        $handler = $this->handler;
 
-        $this->bus->expects($this->once())
-            ->method('dispatch')
-            ->with(
-                $this->callback(function ($msg) {
-                    return $msg instanceof Message
-                        && $msg->getPayload()['retry'] === 2
-                        && $msg->getPayload()['foo'] === 'retry_test';
-                }),
-                $this->callback(function ($stamps) {
-                    return isset($stamps[0]) && $stamps[0] instanceof DelayStamp
-                        && $stamps[0]->getDelay() === 2000;
-                })
-            )
-            ->willReturn(new Envelope(new Message($payload)));
+        $message = new Message([
+            'foo' => 'retry',
+            'retry_count' => 2,
+        ]);
 
-        $this->handler->retry($payload);
-    }
+        $this->expectException(RuntimeException::class);
 
-    /**
-     * @throws ExceptionInterface
-     */
-    public function testRetryThirdTime(): void
-    {
-        $payload = ['foo' => 'retry_test', 'retry' => 2];
-
-        $this->bus->expects($this->once())
-            ->method('dispatch')
-            ->with(
-                $this->callback(function ($msg) {
-                    return $msg instanceof Message
-                        && $msg->getPayload()['retry'] === 3
-                        && $msg->getPayload()['foo'] === 'retry_test';
-                }),
-                $this->callback(function ($stamps) {
-                    return isset($stamps[0]) && $stamps[0] instanceof DelayStamp
-                        && $stamps[0]->getDelay() === 3000;
-                })
-            )
-            ->willReturn(new Envelope(new Message($payload)));
-
-        $this->handler->retry($payload);
+        try {
+            $handler($message);
+        } finally {
+            $payload = $message->getPayload();
+            $this->assertEquals(3, $payload['retry_count']); // incremented from 2 → 3
+        }
     }
 }

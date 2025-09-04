@@ -15,4 +15,9 @@ class Message
     {
         return $this->payload;
     }
+
+    public function setPayload(array $payload): void
+    {
+        $this->payload = $payload;
+    }
 }
