@@ -92,7 +92,7 @@ class MessageHandlerTest extends TestCase
         $handler = $this->handler;
 
         $message = new Message([
-            'foo' => 'retry',
+            'foo'         => 'retry',
             'retry_count' => 2,
         ]);
 
