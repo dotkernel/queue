@@ -16,9 +16,9 @@ return [
                     'serializer'     => SymfonySerializer::class,
                     'retry_strategy' => [
                         'max_retries' => 3, //maximum number of times a message will be retried after the first failure
-                        'delay'       => 1000 // initial delay before retrying a failed message, in milliseconds,
-                        'multiplier'  => 2 // factor to increase the delay for each subsequent retry,
-                        'max_delay'   => 0 // maximum delay between retries, in milliseconds,
+                        'delay'       => 1000, // initial delay before retrying a failed message, in milliseconds
+                        'multiplier'  => 2, // factor to increase the delay for each subsequent retry
+                        'max_delay'   => 0, // maximum delay between retries, in milliseconds
                     ],
                 ],
                 // separate transport for failed messages
