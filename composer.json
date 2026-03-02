@@ -51,7 +51,7 @@
         "dotkernel/dot-errorhandler": "4.4.0",
         "laminas/laminas-component-installer": "^3.7",
         "laminas/laminas-config-aggregator": "^1.19",
-        "mezzio/mezzio": "^3.23.2",
+        "mezzio/mezzio": "^3.27.0",
         "netglue/laminas-messenger": "^2.5.0",
         "ramsey/uuid": "^4.9.2",
         "ramsey/uuid-doctrine": "^2.1",
