@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\App\Doctrine;
 
-use Core\App\src\DBAL\Types\AbstractEnumType;
+use Core\App\DBAL\Types\AbstractEnumType;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
