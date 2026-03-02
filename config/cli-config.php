@@ -26,7 +26,6 @@ try {
         new ExistingEntityManager($entityManager)
     );
 } catch (ContainerExceptionInterface $exception) {
-    var_dump($exception->getMessage());exit;
     try {
         /** @var Logger $logger */
         $logger = $container->get('dot-log.queue-log');
