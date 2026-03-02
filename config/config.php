@@ -19,14 +19,16 @@ $aggregator = new ConfigAggregator([
     Netglue\PsrContainer\Messenger\ConfigProvider::class,
 
     // Default App module config
+    Core\App\ConfigProvider::class,
     Queue\App\ConfigProvider::class,
     Queue\Swoole\ConfigProvider::class,
 
     // Dotkernel packages
-    Dot\Log\ConfigProvider::class,
     Dot\Cli\ConfigProvider::class,
     Dot\DependencyInjection\ConfigProvider::class,
+    Dot\DataFixtures\ConfigProvider::class,
     Dot\ErrorHandler\ConfigProvider::class,
+    Dot\Log\ConfigProvider::class,
 
     // Load application config in a pre-defined order in such a way that local settings
     // overwrite global settings. (Loaded as first to last):

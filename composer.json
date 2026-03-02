@@ -43,28 +43,36 @@
         }
     },
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-        "dotkernel/dot-cli": "^3.9",
-        "dotkernel/dot-dependency-injection": "^1.2",
-        "dotkernel/dot-errorhandler": "4.2.1",
-        "laminas/laminas-component-installer": "^3.5",
-        "laminas/laminas-config-aggregator": "^1.18",
-        "mezzio/mezzio": "^3.20",
-        "netglue/laminas-messenger": "^2.3.0",
-        "symfony/redis-messenger": "^v7.2.3"
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "dotkernel/dot-cache": "^4.4",
+        "dotkernel/dot-cli": "^3.10",
+        "dotkernel/dot-data-fixtures": "^1.5",
+        "dotkernel/dot-dependency-injection": "^1.3",
+        "dotkernel/dot-errorhandler": "4.4.0",
+        "laminas/laminas-component-installer": "^3.7",
+        "laminas/laminas-config-aggregator": "^1.19",
+        "mezzio/mezzio": "^3.23.2",
+        "netglue/laminas-messenger": "^2.5.0",
+        "ramsey/uuid": "^4.9.2",
+        "ramsey/uuid-doctrine": "^2.1",
+        "roave/psr-container-doctrine": "^5.2.2 || ^6.1.0",
+        "symfony/redis-messenger": "^7.4.6"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^3.0",
-        "phpstan/phpstan": "^2.0",
-        "phpstan/phpstan-doctrine": "^2.0",
-        "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^10.5.45",
+        "laminas/laminas-coding-standard": "^3.1",
+        "laminas/laminas-development-mode": "^3.15",
+        "phpstan/phpstan": "^2.1.40",
+        "phpstan/phpstan-doctrine": "^2.0.18",
+        "phpstan/phpstan-phpunit": "^2.0.16",
+        "phpunit/phpunit": "^10.5.63",
         "roave/security-advisories": "dev-master",
-        "swoole/ide-helper": "~5.0.0"
+        "swoole/ide-helper": "~5.0.3"
     },
     "autoload": {
         "psr-4": {
-            "Queue\\": "src/"
+            "Core\\App\\": "src/Core/src/App/src/",
+            "Queue\\App\\": "src/App/src/",
+            "Queue\\Swoole\\": "src/Swoole/src/"
         }
     },
     "autoload-dev": {
@@ -81,8 +89,13 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "static-analysis": "phpstan analyse --memory-limit 1G"
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "post-update-cmd": [
+            "php ./bin/composer-post-install-script.php"
+        ],
+        "static-analysis": "phpstan analyse --memory-limit 1G",
+        "test": "phpunit --colors=always"
     }
 }

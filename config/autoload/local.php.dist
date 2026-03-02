@@ -12,29 +12,45 @@ declare(strict_types=1);
 $baseUrl = 'https://queue.dotkernel.net';
 
 $databases = [
-    'default' => [
-        'host'     => '',
-        'dbname'   => '',
-        'user'     => '',
-        'password' => '',
-        'port'     => 3306,
-        'driver'   => 'pdo_mysql',
-        'charset'  => 'utf8mb4',
-        'collate'  => 'utf8mb4_general_ci',
+    /**
+     * You can add more database connections to this array.
+     * Only one active connection is allowed at a time.
+     * By default, the application uses the 'mariadb' connection.
+     * You can switch to another connection by activating it under doctrine->connection->orm_default-->params.
+     */
+    'mariadb'    => [
+        'host'         => 'localhost',
+        'dbname'       => 'dotkernel',
+        'user'         => '',
+        'password'     => '',
+        'port'         => 3306,
+        'driver'       => 'pdo_mysql',
+        'collation'    => 'utf8mb4_general_ci',
+        'table_prefix' => '',
     ],
-    // you can add more database connections into this array
+    'postgresql' => [
+        'host'         => 'localhost',
+        'dbname'       => 'dotkernel',
+        'user'         => '',
+        'password'     => '',
+        'port'         => 5432,
+        'driver'       => 'pdo_pgsql',
+        'collation'    => 'utf8mb4_general_ci',
+        'table_prefix' => '',
+    ],
 ];
 
 return [
     'application'  => [
-        'name' => $app['name'] ?? '',
+        'name' => 'Dotkernel Queue',
         'url'  => $baseUrl,
     ],
     'databases'    => $databases,
     'doctrine'     => [
         'connection' => [
             'orm_default' => [
-                'params' => $databases['default'],
+                'params' => $databases['mariadb'],
+//                'params' => $databases['postgresql'],
             ],
         ],
     ],

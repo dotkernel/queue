@@ -14,6 +14,33 @@ use Queue\App\Message\Message;
 use Queue\App\Message\MessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+/**
+ * @phpstan-type ConfigType array{
+ *      dependencies: DependenciesType,
+ *      symfony: SymfonyType,
+ * }
+ * @phpstan-type DependenciesType array{
+ *     factories: array<class-string|non-empty-string, class-string|non-empty-string>,
+ *     aliases: array<class-string|non-empty-string, class-string|non-empty-string>,
+ * }
+ * @phpstan-type SymfonyType array{
+ *     messenger: array{
+ *         buses: array{
+ *             message_bus: array{
+ *                 allows_zero_handlers: bool,
+ *                 middleware: list<non-empty-string>,
+ *                 handler_locator: class-string,
+ *                 handlers: array{
+ *                     Message::class: list<class-string>,
+ *                 },
+ *                 routes: array{
+ *                     Message::class: list<non-empty-string>,
+ *                 },
+ *             },
+ *         },
+ *     },
+ * }
+ */
 class ConfigProvider
 {
     public function __invoke(): array
