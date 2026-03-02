@@ -2,7 +2,6 @@
 /.phpunit.cache
 /clover.xml
 /coveralls-upload.json
-/phpunit.xml
 /vendor/
 .idea
 composer.lock
