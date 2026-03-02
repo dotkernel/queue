@@ -87,7 +87,7 @@ class GetProcessedMessagesCommand extends Command
             return Command::FAILURE;
         }
 
-        $logPath = dirname(__DIR__, 3) . '/log/queue-log.log';
+        $logPath = dirname(__DIR__, 4) . '/log/queue-log.log';
 
         if (! file_exists($logPath)) {
             $output->writeln("<error>Log file was not found: $logPath</error>");
