@@ -47,6 +47,21 @@ $files = [
         'destination' => 'config/autoload/local.php',
         'environment' => [ENVIRONMENT_DEVELOPMENT, ENVIRONMENT_PRODUCTION],
     ],
+    [
+        'source'      => 'config/autoload/log.local.php.dist',
+        'destination' => 'config/autoload/log.local.php',
+        'environment' => [ENVIRONMENT_DEVELOPMENT, ENVIRONMENT_PRODUCTION],
+    ],
+    [
+        'source'      => 'config/autoload/messenger.local.php.dist',
+        'destination' => 'config/autoload/messenger.local.php',
+        'environment' => [ENVIRONMENT_DEVELOPMENT, ENVIRONMENT_PRODUCTION],
+    ],
+    [
+        'source'      => 'config/autoload/swoole.local.php.dist',
+        'destination' => 'config/autoload/swoole.local.php',
+        'environment' => [ENVIRONMENT_DEVELOPMENT, ENVIRONMENT_PRODUCTION],
+    ],
 ];
 
 echo "Using environment setting: " . getEnvironment() . PHP_EOL;
