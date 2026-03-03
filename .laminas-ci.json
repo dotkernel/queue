@@ -3,7 +3,8 @@
         "--no-scripts"
     ],
     "extensions": [
-        "redis"
+        "redis",
+        "swoole"
     ],
     "ignore_php_platform_requirements": {
     }
