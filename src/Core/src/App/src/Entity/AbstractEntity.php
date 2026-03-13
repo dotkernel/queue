@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Core\App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Laminas\Stdlib\ArraySerializableInterface;
+
+use function is_array;
+use function method_exists;
+use function ucfirst;
+
+#[ORM\MappedSuperclass]
+abstract class AbstractEntity implements ArraySerializableInterface, EntityInterface
+{
+    public function __construct()
+    {
+        $this->initId();
+    }
+
+    protected function initId(): void
+    {
+    }
+
+    /**
+     * Override this method in soft-deletable entities
+     */
+    public function isDeleted(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @param array<non-empty-string, mixed> $array
+     */
+    public function exchangeArray(array $array): void
+    {
+        foreach ($array as $property => $values) {
+            if (is_array($values)) {
+                $method = 'add' . ucfirst($property);
+                if (! method_exists($this, $method)) {
+                    continue;
+                }
+                foreach ($values as $value) {
+                    $this->$method($value);
+                }
+            } else {
+                $method = 'set' . ucfirst($property);
+                if (! method_exists($this, $method)) {
+                    continue;
+                }
+                $this->$method($values);
+            }
+        }
+    }
+}

@@ -26,13 +26,13 @@ use const FILE_IGNORE_NEW_LINES;
 use const FILE_SKIP_EMPTY_LINES;
 
 #[AsCommand(
-    name: 'failed',
-    description: 'Get processing failure messages.',
+    name: 'processed',
+    description: 'Get successfully processed messages',
 )]
-class GetFailedMessagesCommand extends Command
+class GetProcessedMessagesCommand extends Command
 {
     /** @var string $defaultName */
-    protected static $defaultName = 'failed';
+    protected static $defaultName = 'processed';
 
     #[Inject]
     public function __construct()
@@ -42,7 +42,7 @@ class GetFailedMessagesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Get processing failure messages.')
+        $this->setDescription('Get successfully processed messages')
             ->addOption('start', null, InputOption::VALUE_OPTIONAL, 'Start timestamp (Y-m-d H:i:s)')
             ->addOption('end', null, InputOption::VALUE_OPTIONAL, 'End timestamp (Y-m-d H:i:s)')
             ->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'Limit in days');
@@ -87,7 +87,7 @@ class GetFailedMessagesCommand extends Command
             return Command::FAILURE;
         }
 
-        $logPath = dirname(__DIR__, 3) . '/log/queue-log.log';
+        $logPath = dirname(__DIR__, 4) . '/log/queue-log.log';
 
         if (! file_exists($logPath)) {
             $output->writeln("<error>Log file was not found: $logPath</error>");
@@ -108,7 +108,7 @@ class GetFailedMessagesCommand extends Command
                 continue;
             }
 
-            if (strtolower($entry['levelName']) !== 'error') {
+            if (strtolower($entry['levelName']) !== 'info') {
                 continue;
             }
 

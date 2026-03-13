@@ -4,8 +4,13 @@ includes:
 parameters:
     level: 5
     paths:
+        - bin
         - config
         - public
         - src
         - test
     treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '/^Trait Core\\App\\Entity\\NumericIdentifierTrait is used zero times and is not analysed.$/'
+        - '/^Trait Core\\App\\Entity\\TimestampsTrait is used zero times and is not analysed.$/'
+        - '/^Trait Core\\App\\Entity\\UuidIdentifierTrait is used zero times and is not analysed.$/'
