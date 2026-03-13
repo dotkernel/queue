@@ -13,6 +13,11 @@ The queue system uses logs to ensure maintainability and implements retry featur
 
 ![Queue process](https://docs.dotkernel.org/img/queue/schema.png)
 
+## Features
+
+- Doctrine integration including migrations and fixtures (with `MariaDB` and `PostgreSQL` support)
+- Core ready (Core module ready to be moved to a separate repository)
+
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/queue)
