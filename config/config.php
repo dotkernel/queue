@@ -24,6 +24,7 @@ $aggregator = new ConfigAggregator([
     Queue\Swoole\ConfigProvider::class,
 
     // Dotkernel packages
+    Dot\Cache\ConfigProvider::class,                             
     Dot\Cli\ConfigProvider::class,
     Dot\DependencyInjection\ConfigProvider::class,
     Dot\DataFixtures\ConfigProvider::class,
