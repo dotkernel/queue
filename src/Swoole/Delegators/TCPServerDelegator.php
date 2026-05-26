@@ -69,7 +69,7 @@ class TCPServerDelegator
                     $application->addCommand($commandInstance);
                 } else {
                     /** @phpstan-ignore method.notFound */
-                    $application->add($commandInstance);
+                    $application->add($commandInstance); // @codeCoverageIgnore
                 }
 
                 $parsedOptions = [];
