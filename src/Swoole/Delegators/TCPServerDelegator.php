@@ -23,6 +23,7 @@ use function array_merge;
 use function array_shift;
 use function explode;
 use function ltrim;
+use function method_exists;
 use function str_starts_with;
 use function trim;
 
@@ -63,7 +64,11 @@ class TCPServerDelegator
                 $commandClass    = $commandMap[$commandName];
                 $application     = new Application();
                 $commandInstance = $container->get($commandClass);
-                $application->addCommand($commandInstance);
+                if (method_exists($application, 'addCommand')) {
+                    $application->addCommand($commandInstance);
+                } else {
+                    $application->add($commandInstance);
+                }
 
                 $parsedOptions = [];
                 foreach ($args as $arg) {
