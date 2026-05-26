@@ -64,11 +64,10 @@ class TCPServerDelegator
                 $commandClass    = $commandMap[$commandName];
                 $application     = new Application();
                 $commandInstance = $container->get($commandClass);
-                /** @phpstan-ignore function.alreadyNarrowedType */
+                /** @phpstan-ignore function.alreadyNarrowedType, method.notFound */
                 if (method_exists($application, 'addCommand')) {
                     $application->addCommand($commandInstance);
                 } else {
-                    /** @phpstan-ignore method.notFound */
                     $application->add($commandInstance);
                 }
 
