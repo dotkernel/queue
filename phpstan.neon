@@ -9,4 +9,3 @@ parameters:
         - src
         - test
     treatPhpDocTypesAsCertain: false
-    reportUnmatchedIgnoredErrors: false

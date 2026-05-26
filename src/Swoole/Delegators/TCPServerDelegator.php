@@ -11,6 +11,7 @@ use Queue\App\Message\Message;
 use Queue\Swoole\Command\GetFailedMessagesCommand;
 use Queue\Swoole\Command\GetProcessedMessagesCommand;
 use Queue\Swoole\Command\GetQueuedMessagesCommand;
+use Queue\Swoole\Exception\RuntimeException;
 use Swoole\Server as TCPSwooleServer;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -24,6 +25,7 @@ use function array_shift;
 use function explode;
 use function ltrim;
 use function method_exists;
+use function sprintf;
 use function str_starts_with;
 use function trim;
 
@@ -64,12 +66,14 @@ class TCPServerDelegator
                 $commandClass    = $commandMap[$commandName];
                 $application     = new Application();
                 $commandInstance = $container->get($commandClass);
-                /** @phpstan-ignore function.alreadyNarrowedType */
                 if (method_exists($application, 'addCommand')) {
                     $application->addCommand($commandInstance);
+                } elseif (method_exists($application, 'add')) {
+                    $application->add($commandInstance);
                 } else {
-                    /** @phpstan-ignore method.notFound */
-                    $application->add($commandInstance); // @codeCoverageIgnore
+                    throw new RuntimeException(
+                        sprintf('%s contains no "add" or "addCommand" method.', $application::class)
+                    );
                 }
 
                 $parsedOptions = [];
