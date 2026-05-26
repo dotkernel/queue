@@ -68,6 +68,7 @@ class TCPServerDelegator
                 if (method_exists($application, 'addCommand')) {
                     $application->addCommand($commandInstance);
                 } else {
+                    /** @phpstan-ignore method.notFound */
                     $application->add($commandInstance);
                 }
 
