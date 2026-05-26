@@ -63,7 +63,7 @@ class TCPServerDelegator
                 $commandClass    = $commandMap[$commandName];
                 $application     = new Application();
                 $commandInstance = $container->get($commandClass);
-                $application->add($commandInstance);
+                $application->addCommand($commandInstance);
 
                 $parsedOptions = [];
                 foreach ($args as $arg) {
