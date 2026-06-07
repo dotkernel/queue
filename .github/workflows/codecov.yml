@@ -52,7 +52,7 @@ jobs:
         run: vendor/bin/phpunit --colors=always --coverage-clover clover.xml
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
          token: ${{ secrets.CODECOV_TOKEN }}
          slug: dotkernel/queue
