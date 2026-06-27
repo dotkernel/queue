@@ -8,8 +8,8 @@ use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface as SymfonySerializer;
 
 return [
-    "symfony"      => [
-        "messenger" => [
+    'symfony'      => [
+        'messenger' => [
             'transports'        => [
                 'redis_transport' => [
                     'dsn'            => 'redis://127.0.0.1:6379/messages',
@@ -31,10 +31,10 @@ return [
             'failure_transport' => 'failed',
         ],
     ],
-    "dependencies" => [
-        "factories" => [
-            "redis_transport"        => [TransportFactory::class, 'redis_transport'],
-            "failed"                 => [TransportFactory::class, 'failed'],
+    'dependencies' => [
+        'factories' => [
+            'redis_transport'        => [TransportFactory::class, 'redis_transport'],
+            'failed'                 => [TransportFactory::class, 'failed'],
             SymfonySerializer::class => fn(ContainerInterface $container) => new PhpSerializer(),
         ],
     ],

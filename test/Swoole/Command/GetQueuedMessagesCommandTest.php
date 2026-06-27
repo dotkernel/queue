@@ -7,6 +7,7 @@ namespace QueueTest\Swoole\Command;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Queue\App\Message\Message;
 use Queue\Swoole\Command\GetQueuedMessagesCommand;
 use Redis;
 use RedisException;
@@ -14,9 +15,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Stamp\RedeliveryStamp;
 
+use function addslashes;
 use function array_keys;
 use function count;
+use function json_encode;
+use function serialize;
 
 class GetQueuedMessagesCommandTest extends TestCase
 {
@@ -42,7 +48,7 @@ class GetQueuedMessagesCommandTest extends TestCase
             ->willReturn([]);
 
         $command = new GetQueuedMessagesCommand($this->redisMock);
-        $input   = new ArrayInput([]);
+        $input   = new ArrayInput(['--stream' => 'messages']);
         $output  = new BufferedOutput();
 
         $exitCode   = $command->run($input, $output);
@@ -55,11 +61,11 @@ class GetQueuedMessagesCommandTest extends TestCase
     /**
      * @throws ExceptionInterface
      */
-    public function testExecuteWithMessages(): void
+    public function testExecuteWithSimpleMessages(): void
     {
         $fakeMessages = [
-            '1691000000000-0' => ['type' => 'testEmail', 'payload' => '{"to":"test@dotkernel.com"}'],
-            '1691000000001-0' => ['type' => 'testSms', 'payload' => '{"to":"+123456789"}'],
+            '1691000000000-0' => ['type' => 'testEmail', 'payload' => '{"to":"test@example.com"}'],
+            '1691000000001-0' => ['type' => 'testEmail2', 'payload' => '{"to":"test@example2.com"}'],
         ];
 
         $this->redisMock
@@ -69,7 +75,7 @@ class GetQueuedMessagesCommandTest extends TestCase
             ->willReturn($fakeMessages);
 
         $command = new GetQueuedMessagesCommand($this->redisMock);
-        $input   = new ArrayInput([]);
+        $input   = new ArrayInput(['--stream' => 'messages']);
         $output  = new BufferedOutput();
 
         $exitCode   = $command->run($input, $output);
@@ -97,10 +103,59 @@ class GetQueuedMessagesCommandTest extends TestCase
             ->willThrowException(new RedisException('Redis unavailable'));
 
         $command = new GetQueuedMessagesCommand($this->redisMock);
-        $input   = new ArrayInput([]);
+        $input   = new ArrayInput(['--stream' => 'messages']);
         $output  = new BufferedOutput();
 
         $this->expectException(RedisException::class);
         $command->run($input, $output);
+    }
+
+    public function testExecuteWithInvalidBody(): void
+    {
+        $invalidBodyJson = json_encode(['body' => 'not-a-serialized-envelope']);
+
+        $this->redisMock
+            ->expects($this->once())
+            ->method('xRange')
+            ->willReturn([
+                '2-0' => ['body' => $invalidBodyJson],
+            ]);
+
+        $command = new GetQueuedMessagesCommand($this->redisMock);
+        $input   = new ArrayInput(['--stream' => 'messages']);
+        $output  = new BufferedOutput();
+
+        $exitCode   = $command->run($input, $output);
+        $outputText = $output->fetch();
+
+        $this->assertEquals(Command::SUCCESS, $exitCode);
+        $this->assertStringContainsString('failed to unserialize envelope', $outputText);
+    }
+
+    public function testExecuteWithValidEnvelope(): void
+    {
+        $message            = new Message(['foo' => 'bar']);
+        $envelope           = new Envelope($message, [new RedeliveryStamp(1)]);
+        $serializedEnvelope = serialize($envelope);
+        $jsonBody           = json_encode(['body' => addslashes($serializedEnvelope)]);
+
+        $this->redisMock
+            ->expects($this->once())
+            ->method('xRange')
+            ->willReturn([
+                '100-0' => ['body' => $jsonBody],
+            ]);
+
+        $command = new GetQueuedMessagesCommand($this->redisMock);
+        $input   = new ArrayInput(['--stream' => 'messages']);
+        $output  = new BufferedOutput();
+
+        $exitCode   = $command->run($input, $output);
+        $outputText = $output->fetch();
+
+        $this->assertEquals(Command::SUCCESS, $exitCode);
+        $this->assertStringContainsString('Message Class', $outputText);
+        $this->assertStringContainsString('Payload', $outputText);
+        $this->assertStringContainsString('Timestamps', $outputText);
     }
 }
