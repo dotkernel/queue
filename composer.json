@@ -51,7 +51,7 @@
         "laminas/laminas-config-aggregator": "^1.18",
         "mezzio/mezzio": "^3.20",
         "netglue/laminas-messenger": "^2.3.0",
-        "symfony/redis-messenger": "^v7.2.3"
+        "symfony/redis-messenger": "^v8.0.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^3.0",
