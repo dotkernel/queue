@@ -43,7 +43,7 @@
         }
     },
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "dotkernel/dot-cli": "^3.11.1",
         "dotkernel/dot-dependency-injection": "^1.2",
         "dotkernel/dot-errorhandler": "4.2.1",
