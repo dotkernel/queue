@@ -46,7 +46,7 @@
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
         "dotkernel/dot-cli": "^3.11.1",
         "dotkernel/dot-dependency-injection": "^1.2",
-        "dotkernel/dot-errorhandler": "4.2.1",
+        "dotkernel/dot-errorhandler": "5.0.0",
         "laminas/laminas-component-installer": "^3.5",
         "laminas/laminas-config-aggregator": "^1.18",
         "mezzio/mezzio": "^3.20",
