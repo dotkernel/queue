@@ -65,7 +65,7 @@ class MessageHandlerTest extends TestCase
         $message = new Message(['foo' => 'control']);
         $handler($message);
 
-        $payload = $message->getPayload();
+        $payload = $message->payload;
         $this->assertArrayNotHasKey('retry_count', $payload);
     }
 
@@ -81,7 +81,7 @@ class MessageHandlerTest extends TestCase
         try {
             $handler($message);
         } finally {
-            $payload = $message->getPayload();
+            $payload = $message->payload;
             $this->assertArrayHasKey('retry_count', $payload);
             $this->assertEquals(1, $payload['retry_count']); // first retry
         }
@@ -101,7 +101,7 @@ class MessageHandlerTest extends TestCase
         try {
             $handler($message);
         } finally {
-            $payload = $message->getPayload();
+            $payload = $message->payload;
             $this->assertEquals(3, $payload['retry_count']); // incremented from 2 → 3
         }
     }

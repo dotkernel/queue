@@ -132,10 +132,10 @@ class TCPServerDelegatorTest extends TestCase
 
                 if ($callCount === 1) {
                     $this->assertInstanceOf(Message::class, $message);
-                    $this->assertEquals('hello', $message->getPayload()['foo']);
+                    $this->assertEquals('hello', $message->payload['foo']);
                 } elseif ($callCount === 2) {
                     $this->assertInstanceOf(Message::class, $message);
-                    $this->assertEquals('with 5 seconds delay', $message->getPayload()['foo']);
+                    $this->assertEquals('with 5 seconds delay', $message->payload['foo']);
                 } else {
                     $this->fail('dispatch called more than twice');
                 }
