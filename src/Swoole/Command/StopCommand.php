@@ -18,7 +18,7 @@ class StopCommand extends Command
 {
     use IsRunningTrait;
 
-    public const HELP = <<<'EOH'
+    public const string HELP = <<<'EOH'
 Stop the web server. Kills all worker processes and stops the web server.
 
 This command is only relevant when the server was started using the
