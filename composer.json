@@ -60,7 +60,7 @@
         "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^10.5.45",
         "roave/security-advisories": "dev-master",
-        "swoole/ide-helper": "~6.0.0"
+        "swoole/ide-helper": "~6.2.0"
     },
     "autoload": {
         "psr-4": {
