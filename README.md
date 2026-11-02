@@ -15,8 +15,8 @@ The queue system uses logs to ensure maintainability and implements retry featur
 
 ## Version History
 
-| Branch | Release | PSR-11 | OSS Lifecycle                                                                                                                          | PHP Version                                                                                           |
-|--------|---------|--------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| Branch | Release | PSR-11 | OSS Lifecycle                                                         | PHP Version                                                                                           |
+|--------|---------|--------|-----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
 | 2.0    | `> 2.0` | 1      | ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/queue) | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/queue/2.0.0) |
 | 1.0    | `< 2.0` | 1      | ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/queue) | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/queue/1.0.0) |
 

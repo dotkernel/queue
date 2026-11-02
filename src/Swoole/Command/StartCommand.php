@@ -24,9 +24,9 @@ class StartCommand extends Command
 
     public PidManager $pidManager;
 
-    public const DEFAULT_PROCESS_NAME = 'dotkernel-queue';
+    public const string DEFAULT_PROCESS_NAME = 'dotkernel-queue';
 
-    public const HELP = <<<'EOH'
+    public const string HELP = <<<'EOH'
 Start the web server. If --daemonize is provided, starts the server as a
 background process and returns handling to the shell; otherwise, the
 server runs in the current process.

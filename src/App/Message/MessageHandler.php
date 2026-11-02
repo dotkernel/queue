@@ -28,7 +28,7 @@ class MessageHandler
      */
     public function __invoke(Message $message): void
     {
-        $payload = $message->getPayload();
+        $payload = $message->payload;
 
         try {
             if ($payload['foo'] === 'control') {
@@ -52,7 +52,7 @@ class MessageHandler
             }
 
             $payload['retry_count'] = $retryCount + 1;
-            $message->setPayload($payload);
+            $message->payload       = $payload;
 
             throw $e;
         }

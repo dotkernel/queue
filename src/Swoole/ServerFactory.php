@@ -31,22 +31,16 @@ use const SWOOLE_UNIX_STREAM;
 
 class ServerFactory
 {
-    /**
-     * @var string
-     */
-    public const DEFAULT_HOST = '127.0.0.1';
+    public const string DEFAULT_HOST = '127.0.0.1';
 
-    /**
-     * @var int
-     */
-    public const DEFAULT_PORT = 8080;
+    public const int DEFAULT_PORT = 8080;
 
     /**
      * Swoole server supported modes
      *
      * @var int[]
      */
-    private const MODES = [
+    private const array MODES = [
         SWOOLE_BASE,
         SWOOLE_PROCESS,
     ];
@@ -56,7 +50,7 @@ class ServerFactory
      *
      * @var int[]
      */
-    private const PROTOCOLS = [
+    private const array PROTOCOLS = [
         SWOOLE_SOCK_TCP,
         SWOOLE_SOCK_TCP6,
         SWOOLE_SOCK_UDP,

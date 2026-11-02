@@ -17,7 +17,7 @@ use function unlink;
 
 class PidManager
 {
-    public function __construct(private string $pidFile)
+    public function __construct(private readonly string $pidFile)
     {
     }
 
