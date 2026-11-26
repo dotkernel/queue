@@ -45,7 +45,7 @@
     "require": {
         "php": "~8.4.0 || ~8.5.0",
         "dotkernel/dot-cli": "^3.11.1",
-        "dotkernel/dot-dependency-injection": "^1.2",
+        "dotkernel/dot-dependency-injection": "^2.0",
         "dotkernel/dot-errorhandler": "^5.0.0",
         "laminas/laminas-component-installer": "^3.5",
         "laminas/laminas-config-aggregator": "^1.18",
